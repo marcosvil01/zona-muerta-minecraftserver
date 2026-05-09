@@ -1,8 +1,10 @@
+com\zonamuerta\plugin\portals\ModernPortalManager.class
 com\zonamuerta\plugin\ZonaMuerta.class
 com\zonamuerta\plugin\AuctionHouse.class
 com\zonamuerta\plugin\ClassManager.class
 com\zonamuerta\plugin\SpecsManager$1.class
 com\zonamuerta\plugin\StatsManager$PlayerStats.class
+com\zonamuerta\plugin\gui\ModernMenuListener.class
 com\zonamuerta\plugin\MenuManager.class
 com\zonamuerta\plugin\ScoreboardManager.class
 com\zonamuerta\plugin\AntiCheatListener.class
@@ -13,10 +15,13 @@ com\zonamuerta\plugin\MonthlyEventManager$2.class
 com\zonamuerta\plugin\ZonaMuerta$NoiseLightListener.class
 com\zonamuerta\plugin\StatsManager.class
 com\zonamuerta\plugin\MonthlyEventManager.class
+com\zonamuerta\plugin\WeaponsManager.class
+com\zonamuerta\plugin\gui\ModernMenuListener$1.class
 com\zonamuerta\plugin\SafezoneManager$Safezone.class
 com\zonamuerta\plugin\ZonaMuerta$1.class
 com\zonamuerta\plugin\SpecsManager.class
 com\zonamuerta\plugin\MonthlyEventManager$EventType.class
+com\zonamuerta\plugin\gui\ModernMenuProvider.class
 com\zonamuerta\plugin\ClassManager$PlayerClass.class
 com\zonamuerta\plugin\EconomyManager$Transaction.class
 com\zonamuerta\plugin\ScoreboardManager$3.class
@@ -28,8 +33,11 @@ com\zonamuerta\plugin\structures\RuinedHouse2.class
 com\zonamuerta\plugin\ScoreboardManager$1.class
 com\zonamuerta\plugin\QuestManager$ActiveQuest.class
 com\zonamuerta\plugin\ProgressionManager$PlayerProgression.class
+com\zonamuerta\plugin\portals\ModernPortalManager$PortalRegion.class
+com\zonamuerta\plugin\selection\SelectionManager.class
 com\zonamuerta\plugin\ZonaMuerta$13.class
 com\zonamuerta\plugin\ZonaMuerta$5.class
+com\zonamuerta\plugin\ZMPlaceholderExpansion.class
 com\zonamuerta\plugin\ZonaMuerta$2.class
 com\zonamuerta\plugin\MenuManager$1.class
 com\zonamuerta\plugin\ZonaMuerta$10.class
@@ -45,6 +53,7 @@ com\zonamuerta\plugin\QuestManager$Quest.class
 com\zonamuerta\plugin\Infected$1.class
 com\zonamuerta\plugin\MonthlyEventManager$EventInfo.class
 com\zonamuerta\plugin\ProgressionManager.class
+com\zonamuerta\plugin\MythicBridge.class
 com\zonamuerta\plugin\QuestManager$QuestCategory.class
 com\zonamuerta\plugin\WorldConfig.class
 com\zonamuerta\plugin\MenuManager$Menu.class
@@ -53,7 +62,10 @@ com\zonamuerta\plugin\ZonaMuerta$14.class
 com\zonamuerta\plugin\SpecsManager$SpecType.class
 com\zonamuerta\plugin\ZonaMuerta$6.class
 com\zonamuerta\plugin\ZonaMuerta$BloodMoonScheduleEntry.class
+com\zonamuerta\plugin\database\PermissionManagerV2.class
+com\zonamuerta\plugin\selection\SelectionListener.class
 com\zonamuerta\plugin\QuestManager$QuestType.class
+com\zonamuerta\plugin\admin\AdminCommands.class
 com\zonamuerta\plugin\structures\StructureManager.class
 com\zonamuerta\plugin\ZonaMuerta$12.class
 com\zonamuerta\plugin\MonthlyEventManager$1.class
@@ -64,7 +76,9 @@ com\zonamuerta\plugin\ZonaMuerta$SunlightProtectionListener.class
 com\zonamuerta\plugin\CommandHandler.class
 com\zonamuerta\plugin\SpecsManager$PlayerSpec.class
 com\zonamuerta\plugin\structures\RuinedHouse1.class
+com\zonamuerta\plugin\admin\AdminManager.class
 com\zonamuerta\plugin\ZonaMuerta$7.class
 com\zonamuerta\plugin\AuctionHouse$AuctionBid.class
+com\zonamuerta\plugin\database\DatabaseManager.class
 com\zonamuerta\plugin\EconomyManager$TraderItem.class
 com\zonamuerta\plugin\ProgressionManager$ProgressionResult.class

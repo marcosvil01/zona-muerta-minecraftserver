@@ -16,10 +16,10 @@ import java.util.List;
 public class ModernMenuProvider {
 
     private static final MiniMessage miniMessage = MiniMessage.miniMessage();
+    private static final Component MENU_TITLE = miniMessage.deserialize("<dark_gray>Panel de Control v2</dark_gray>");
 
     public static void openMainMenu(Player player) {
-        Inventory inv = Bukkit.createInventory(null, 27,
-            miniMessage.deserialize("<dark_gray>Panel de Control v2</dark_gray>"));
+        Inventory inv = Bukkit.createInventory(null, 27, MENU_TITLE);
 
         inv.setItem(11, createItem(Material.FEATHER, "<yellow>Habilidad: Doble Salto</yellow>",
                 List.of("<gray>Click para alternar</gray>", "<green>Estado: ACTIVADO</green>")));

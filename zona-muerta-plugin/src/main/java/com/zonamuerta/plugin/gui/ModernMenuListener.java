@@ -1,6 +1,7 @@
 package com.zonamuerta.plugin.gui;
 
 import com.zonamuerta.plugin.ZonaMuerta;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -12,20 +13,19 @@ import org.bukkit.inventory.ItemStack;
 public class ModernMenuListener implements Listener {
 
     private static final MiniMessage miniMessage = MiniMessage.miniMessage();
+    private static final Component MENU_TITLE = miniMessage.deserialize("<dark_gray>Panel de Control v2</dark_gray>");
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         if (!(event.getWhoClicked() instanceof Player player)) return;
 
-        String title = event.getView().title();
-        if (!title.contains("Panel de Control v2")) return;
+        Component title = event.getView().title();
+        if (!title.equals(MENU_TITLE)) return;
 
         event.setCancelled(true);
 
         ItemStack item = event.getCurrentItem();
         if (item == null || item.getType() == Material.AIR) return;
-
-        ZonaMuerta plugin = ZonaMuerta.getInstance();
 
         switch (item.getType()) {
             case FEATHER -> player.sendMessage(miniMessage.deserialize("<green>Doble Salto alternado!</green>"));
