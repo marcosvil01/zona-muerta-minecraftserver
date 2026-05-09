@@ -154,7 +154,7 @@ public class StructureManager {
             if (!config.enabled || !(this.random.nextDouble() * 100.0 < config.spawnChance) || (y = world.getHighestBlockYAt(x = chunk.getX() * 16 + this.random.nextInt(16), z = chunk.getZ() * 16 + this.random.nextInt(16))) < config.minY || y > config.maxY) continue;
             Location loc = new Location(world, (double)x, (double)y, (double)z);
             Biome biome = world.getBiome(x, y, z);
-            if (!config.biomes.isEmpty() && !config.biomes.contains(biome.name())) continue;
+            if (!config.biomes.isEmpty() && !config.biomes.contains(biome.getKey().getKey())) continue;
             this.generateStructure(config.name, loc);
             this.generatedChunks.add(chunkKey);
             this.saveStructuresData();
