@@ -17,6 +17,17 @@ commands:
     description: Estadisticas del jugador
     usage: /<command>
     aliases: [estadisticas]
+  vanish:
+    description: Activar modo vanish (invisible)
+    usage: /<command>
+    aliases: [v]
+  freeze:
+    description: Congelar a un jugador
+    usage: /<command> <jugador>
+  spectate:
+    description: Cambiar a modo espectador
+    usage: /<command>
+    aliases: [spec]
 permissions:
   zonamuerta.admin:
     description: Acceso a comandos de administrador
@@ -62,4 +73,13 @@ permissions:
     default: true
   zonamuerta.anticheat.bypass:
     description: Ignora el anticheat
+    default: op
+  zonamuerta.vanish:
+    description: Puede usar el modo vanish
+    default: op
+  zonamuerta.freeze:
+    description: Puede congelar jugadores
+    default: op
+  zonamuerta.spectate:
+    description: Puede usar modo espectador
     default: op

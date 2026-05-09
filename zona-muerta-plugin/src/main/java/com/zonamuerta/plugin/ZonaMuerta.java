@@ -4,17 +4,17 @@ import com.zonamuerta.plugin.CommandHandler;
 import com.zonamuerta.plugin.Infected;
 import com.zonamuerta.plugin.SafezoneManager;
 import com.zonamuerta.plugin.WorldConfig;
+import com.zonamuerta.plugin.admin.AdminCommands;
+import com.zonamuerta.plugin.admin.AdminManager;
+import com.zonamuerta.plugin.database.DatabaseManager;
+import com.zonamuerta.plugin.database.PermissionManagerV2;
+import com.zonamuerta.plugin.gui.ModernMenuListener;
+import com.zonamuerta.plugin.gui.ModernMenuProvider;
+import com.zonamuerta.plugin.portals.ModernPortalManager;
+import com.zonamuerta.plugin.selection.SelectionListener;
+import com.zonamuerta.plugin.selection.SelectionManager;
 import com.zonamuerta.plugin.structures.StructureManager;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Random;
-import java.util.Set;
-import java.util.UUID;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -28,6 +28,17 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Random;
+import java.util.Set;
+import java.util.UUID;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
@@ -91,6 +102,12 @@ implements Listener {
     private final NamespacedKey zombieHeartKey = new NamespacedKey((Plugin)this, "zombie_heart");
     private final NamespacedKey purifiedZombieHeartKey = new NamespacedKey((Plugin)this, "purified_zombie_heart");
     private final NamespacedKey extraHeartsKey = new NamespacedKey((Plugin)this, "extra_hearts");
+    private final MiniMessage miniMessage = MiniMessage.miniMessage();
+    private DatabaseManager databaseManager;
+    private PermissionManagerV2 permissionManagerV2;
+    private AdminManager adminManager;
+    private SelectionManager selectionManager;
+    private ModernPortalManager portalManager;
     private int currentDay = 0;
     private double currentMutationRate;
     private boolean isBloodMoon = false;
@@ -243,6 +260,19 @@ implements Listener {
         } else {
             this.getLogger().warning("[ZM] MythicMobs no encontrado — bridge desactivado.");
         }
+        // ── Nuevos managers de mc_core fusionados ────────────────────────────
+        this.databaseManager = new DatabaseManager(this);
+        this.permissionManagerV2 = new PermissionManagerV2(this.databaseManager);
+        this.selectionManager = new SelectionManager();
+        this.adminManager = new AdminManager(this);
+        this.portalManager = new ModernPortalManager(this, this.selectionManager);
+        this.getServer().getPluginManager().registerEvents(new SelectionListener(this, this.selectionManager), this);
+        this.getServer().getPluginManager().registerEvents(new ModernMenuListener(), this);
+        this.getServer().getPluginManager().registerEvents(this.adminManager, this);
+        this.getServer().getPluginManager().registerEvents(this.portalManager, this);
+        this.getCommand("vanish").setExecutor(new AdminCommands(this.adminManager, this));
+        this.getCommand("freeze").setExecutor(new AdminCommands(this.adminManager, this));
+        this.getCommand("spectate").setExecutor(new AdminCommands(this.adminManager, this));
         // ── Managers de Fase 1 ─────────────────────────────────────────────
         this.progressionManager = new ProgressionManager(this);
         this.classManager = new ClassManager(this);
@@ -317,6 +347,12 @@ implements Listener {
     public SafezoneManager getSafezoneManager() { return this.safezoneManager; }
     public StructureManager getStructureManager() { return this.structureManager; }
     public MythicBridge getMythicBridge() { return this.mythicBridge; }
+    public AdminManager getAdminManager() { return this.adminManager; }
+    public SelectionManager getSelectionManager() { return this.selectionManager; }
+    public PermissionManagerV2 getPermissionManagerV2() { return this.permissionManagerV2; }
+    public ModernPortalManager getPortalManager() { return this.portalManager; }
+    public MiniMessage getMiniMessage() { return this.miniMessage; }
+    public static ZonaMuerta getInstance() { return getPlugin(ZonaMuerta.class); }
 
     public void onDisable() {
         this.infected.savePlayersData();
@@ -327,6 +363,7 @@ implements Listener {
         this.economyManager.onDisable();
         if (this.auctionHouse != null) this.auctionHouse.onDisable();
         if (this.statsManager != null) this.statsManager.onDisable();
+        if (this.databaseManager != null) this.databaseManager.close();
         this.getLogger().info("Zona Muerta apagado correctamente. Todos los cambios guardados.");
     }
 
