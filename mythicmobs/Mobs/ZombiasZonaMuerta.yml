@@ -1,0 +1,222 @@
+# ============================================================
+#  ZONA MUERTA - Mobs Personalizados con MythicMobs
+#  Tipos de zombis escalados en dificultad
+# ============================================================
+
+# ----------------------------------------------------------
+# ZOMBI CAMINANTE  - el zombi base mejorado
+# Común, lento, pero peligroso en hordas
+# ----------------------------------------------------------
+ZombiCaminante:
+  Type: ZOMBIE
+  Display: '&c☠ Caminante'
+  Health: 30
+  Damage: 3
+  KnockbackResistance: 0.2
+  Options:
+    PreventSunburn: true
+    PreventItemPickup: true
+    Despawn: false
+    Baby: false
+  DamageModifiers:
+    - FIRE 0.0
+  Equipment:
+  - AIR HEAD
+  Skills:
+  - effect:sound{s=entity.zombie.ambient;v=1;p=0.8} @self ~onTimer:100 0.2
+  - message{m="&c¡Los muertos caminan!"} @PIR{r=10} ~onSpawn 0.05
+  Drops:
+  - ROTTEN_FLESH 1-3 1.0
+  - BONE 1-2 0.3
+  - zm_basura 1 0.15
+  LevelModifiers:
+    Health: 5
+    Damage: 0.5
+
+# ----------------------------------------------------------
+# ZOMBI CORREDOR  - zombi ágil, peligroso en campo abierto
+# ----------------------------------------------------------
+ZombiCorredor:
+  Type: ZOMBIE
+  Display: '&e⚡ Corredor'
+  Health: 22
+  Damage: 4
+  MovementSpeed: 0.36
+  KnockbackResistance: 0.0
+  Options:
+    PreventSunburn: true
+    PreventItemPickup: true
+    Despawn: false
+  Equipment:
+  - AIR HEAD
+  Skills:
+  - effect:particles{p=CRIT;a=5;hs=0.3;vs=0.2} @self ~onTimer:5 1.0
+  - effect:particles{p=FLAME;a=3;hs=0.2;vs=0.1} @self ~onTimer:5 0.5
+  Drops:
+  - ROTTEN_FLESH 1-2 1.0
+  - SUGAR 1-3 0.4
+  - zm_adrenalina 1 0.10
+  LevelModifiers:
+    Health: 3
+    Damage: 0.8
+    MovementSpeed: 0.02
+
+# ----------------------------------------------------------
+# ZOMBI MUTANTE  - enorme, lento, absurdamente resistente
+# ----------------------------------------------------------
+ZombiMutante:
+  Type: ZOMBIE
+  Display: '&4&l⚠ MUTANTE'
+  Health: 120
+  Damage: 8
+  KnockbackResistance: 0.9
+  MovementSpeed: 0.18
+  Options:
+    PreventSunburn: true
+    PreventItemPickup: true
+    Despawn: false
+  BossBar:
+    Enabled: true
+    Title: '&4⚠ Mutante Infectado'
+    Range: 30
+    Color: RED
+    Style: SOLID
+  Equipment:
+  - IRON_CHESTPLATE CHEST 1
+  Skills:
+  - skill{s=golpe_aplastante} ~onAttack 0.4
+  - effect:particles{p=LARGE_SMOKE;a=10;hs=0.5;vs=0.3} @self ~onTimer:10 1.0
+  - effect:sound{s=entity.ravager.stunned;v=1.0;p=0.5} @self ~onDamaged 0.3
+  Drops:
+  - ROTTEN_FLESH 3-6 1.0
+  - IRON_INGOT 1-2 0.3
+  - zm_carne_mutante 1 0.5
+  - zm_antidoto_fragmento 1 0.2
+  LevelModifiers:
+    Health: 20
+    Damage: 1.5
+
+# ----------------------------------------------------------
+# ZOMBI SOLDADO  - antiguo militar, lleva armadura y arma
+# ----------------------------------------------------------
+ZombiSoldado:
+  Type: ZOMBIE
+  Display: '&6⚔ Soldado Muerto'
+  Health: 55
+  Damage: 6
+  KnockbackResistance: 0.4
+  Options:
+    PreventSunburn: true
+    PreventItemPickup: false
+    Despawn: false
+  Equipment:
+  - CHAINMAIL_HELMET HEAD 1
+  - CHAINMAIL_CHESTPLATE CHEST 1
+  - CHAINMAIL_LEGGINGS LEGS 1
+  - IRON_SWORD HAND 1
+  Skills:
+  - skill{s=carga_soldado} ~onTimer:60 0.3
+  - effect:sound{s=entity.zombie.hurt;v=1.0;p=1.2} @self ~onDamaged 1.0
+  Drops:
+  - ROTTEN_FLESH 2-4 1.0
+  - IRON_NUGGET 1-4 0.5
+  - zm_racion_militar 1 0.25
+  - zm_fragmento_arma 1 0.15
+  LevelModifiers:
+    Health: 10
+    Damage: 1.0
+
+# ----------------------------------------------------------
+# ZOMBI EXPLOSIVO  - explota al morir o al acercarse
+# ----------------------------------------------------------
+ZombiExplosivo:
+  Type: ZOMBIE
+  Display: '&b💣 Explosivo'
+  Health: 15
+  Damage: 2
+  MovementSpeed: 0.28
+  KnockbackResistance: 0.0
+  Options:
+    PreventSunburn: true
+    PreventItemPickup: true
+    Despawn: false
+  Equipment:
+  - TNT HEAD 1
+  Skills:
+  - skill{s=explota_cerca} @PIR{r=3} ~onTimer:20 0.8
+  - skill{s=explosion_fatal} ~onDeath 1.0
+  - effect:particles{p=SMOKE;a=8;hs=0.4;vs=0.3} @self ~onTimer:5 1.0
+  Drops:
+  - ROTTEN_FLESH 1-2 1.0
+  - GUNPOWDER 1-3 0.6
+  LevelModifiers:
+    Health: 3
+    Damage: 0.5
+
+# ----------------------------------------------------------
+# ZOMBI TREPADOR  - sube paredes, ataca desde arriba
+# ----------------------------------------------------------
+ZombiTrepador:
+  Type: ZOMBIE
+  Display: '&3🕷 Trepador'
+  Health: 28
+  Damage: 5
+  MovementSpeed: 0.30
+  Options:
+    PreventSunburn: true
+    PreventItemPickup: true
+    Despawn: false
+    WallClimbing: true
+  Skills:
+  - skill{s=salto_trepador} @target ~onTimer:40 0.4
+  - effect:particles{p=BLOCK_DUST;a=5;b=STONE} @self ~onTimer:5 1.0
+  Drops:
+  - ROTTEN_FLESH 1-3 1.0
+  - STRING 1-4 0.5
+  - zm_garra_trepadora 1 0.2
+
+# ----------------------------------------------------------
+# BOSS: EL PATRON  - boss de evento Luna Roja
+# ----------------------------------------------------------
+ElPatron:
+  Type: ZOMBIE
+  Display: '&4&l☠ EL PATRÓN ☠'
+  Health: 500
+  Damage: 12
+  KnockbackResistance: 1.0
+  MovementSpeed: 0.22
+  Options:
+    PreventSunburn: true
+    PreventItemPickup: false
+    Despawn: false
+    Immune: true
+  BossBar:
+    Enabled: true
+    Title: '&4&l☠ EL PATRÓN — Jefe de la Horda ☠'
+    Range: 60
+    Color: RED
+    Style: SEGMENTED_10
+  Equipment:
+  - NETHERITE_SWORD HAND 1
+  - NETHERITE_HELMET HEAD 1
+  - NETHERITE_CHESTPLATE CHEST 1
+  - NETHERITE_LEGGINGS LEGS 1
+  - NETHERITE_BOOTS FEET 1
+  Skills:
+  - skill{s=rugido_patron} @PIR{r=20} ~onSpawn 1.0
+  - skill{s=invoke_horda} @self ~onTimer:200 0.8
+  - skill{s=ataque_trepidante} @target ~onTimer:40 0.5
+  - skill{s=escudo_oscuro} @self ~onDamaged 0.2
+  - skill{s=fase_rabia} ~onHealthPercent:50 1.0
+  - skill{s=explosion_final} ~onDeath 1.0
+  - message{m="&4&l¡LA HORDA LLEGA! ¡El Patrón ha muerto!"} @PIR{r=100} ~onDeath 1.0
+  Drops:
+  - ROTTEN_FLESH 8-15 1.0
+  - zm_antidoto_completo 1 1.0
+  - zm_arma_patron 1 1.0
+  - zm_armadura_patron_pecho 1 0.8
+  - DIAMOND 2-5 0.9
+  - EMERALD 1-3 0.7
+  LevelModifiers:
+    Health: 100
+    Damage: 2.0

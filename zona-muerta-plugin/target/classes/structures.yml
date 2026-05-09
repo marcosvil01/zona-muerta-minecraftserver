@@ -1,0 +1,49 @@
+# ===================================================================
+# Zombie Apocalypse 999 - Structures Configuration
+# ===================================================================
+# Defines structures that can generate in newly loaded chunks.
+# Each structure entry controls where, when, and how often it appears.
+
+structures:
+  ruined_house_1:
+    # Enable or disable this structure from generating.
+    enabled: true
+
+    # Percent chance (0-100) that this structure will be attempted when a new
+    # chunk is generated. The plugin will further validate biome and Y range.
+    spawn_chance: 10.0
+
+    # Allowed biomes for generation. Use uppercase Biome names as returned by
+    # Bukkit's Biome enum (e.g., PLAINS, FOREST, MEADOW, SAVANNA, TAIGA).
+    # An empty list means "all biomes allowed".
+    biomes:
+      - PLAINS
+      - FOREST
+      - BIRCH_FOREST
+      - DARK_FOREST
+      - TAIGA
+      - SNOWY_PLAINS
+      - SUNFLOWER_PLAINS
+      - MEADOW
+      - SAVANNA
+
+    # Minimum allowed Y (height) where the structure can appear.
+    min_y: 60
+    # Maximum allowed Y (height) where the structure can appear.
+    max_y: 120
+
+  ruined_hospital:
+    enabled: true
+    spawn_chance: 3.0
+    biomes:
+      - PLAINS
+      - FOREST
+      - BIRCH_FOREST
+      - DARK_FOREST
+      - TAIGA
+      - SNOWY_PLAINS
+      - SUNFLOWER_PLAINS
+      - MEADOW
+      - SAVANNA
+    min_y: 60
+    max_y: 120

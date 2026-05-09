@@ -1,0 +1,192 @@
+# ============================================================
+#  ECONOMY SYSTEM - Zona Muerta
+# ============================================================
+
+currency:
+  name: "ZP"
+  symbol: "$"
+  display_name: "Zombie Pesos"
+  starting_balance: 100
+
+# ============================================================
+#  TRADERS
+# ============================================================
+traders:
+  MERCADER:
+    display_name: "&aMercader"
+    description: "Comida, materiales y herramientas basicas."
+    location:
+      world: world
+      x: -10
+      y: 64
+      z: 200
+    buy_categories:
+      - category: COMIDA
+        items:
+          - item: BREAD
+            price: 5
+          - item: COOKED_BEEF
+            price: 8
+          - item: COOKED_PORKCHOP
+            price: 8
+      - category: MATERIALES
+        items:
+          - item: TORCH
+            price: 15
+            amount: 16
+          - item: IRON_INGOT
+            price: 10
+          - item: GOLD_INGOT
+            price: 20
+      - category: ARMOR_BASICA
+        items:
+          - item: CHAINMAIL_HELMET
+            price: 30
+          - item: CHAINMAIL_CHESTPLATE
+            price: 50
+          - item: CHAINMAIL_LEGGINGS
+            price: 45
+          - item: CHAINMAIL_BOOTS
+            price: 25
+    sell_categories:
+      - category: LOOT_ZOMBIE
+        items:
+          - item: ROTTEN_FLESH
+            price: 2
+          - item: BONE
+            price: 3
+          - item: IRON_NUGGET
+            price: 1
+          - item: STRING
+            price: 2
+          - item: GUNPOWDER
+            price: 5
+          - item: SPIDER_EYE
+            price: 4
+          - item: COAL
+            price: 5
+
+  ARSENALERO:
+    display_name: "&cArsenalero"
+    description: "Armas, armaduras y equipamiento de combate."
+    location:
+      world: world
+      x: -25
+      y: 64
+      z: 180
+    buy_categories:
+      - category: ARMAS
+        items:
+          - item: IRON_SWORD
+            price: 30
+          - item: IRON_AXE
+            price: 35
+          - item: BOW
+            price: 35
+          - item: CROSSBOW
+            price: 80
+          - item: SHIELD
+            price: 40
+      - category: MUNICION
+        items:
+          - item: ARROW
+            price: 10
+            amount: 16
+          - item: SPECTRAL_ARROW
+            price: 25
+            amount: 8
+      - category: ARMOR_COMBATE
+        items:
+          - item: IRON_HELMET
+            price: 50
+          - item: IRON_CHESTPLATE
+            price: 80
+          - item: IRON_LEGGINGS
+            price: 70
+          - item: IRON_BOOTS
+            price: 45
+    sell_categories:
+      - category: MATERIALES_COMBATE
+        items:
+          - item: BLAZE_POWDER
+            price: 10
+          - item: FLINT
+            price: 2
+          - item: DIAMOND
+            price: 150
+          - item: EMERALD
+            price: 50
+
+  MEDICO:
+    display_name: "&dMedico"
+    description: "Pociones, curas y suministros medicos."
+    location:
+      world: world
+      x: -15
+      y: 64
+      z: 210
+    buy_categories:
+      - category: POCIONES
+        items:
+          - item: POTION
+            price: 50
+            name: "&aPocion de Curacion"
+            potion_type: INSTANT_HEAL
+          - item: POTION
+            price: 50
+            name: "&bPocion de Regeneracion"
+            potion_type: REGENERATION
+          - item: POTION
+            price: 30
+            name: "&cPocion de Fuerza"
+            potion_type: STRENGTH
+          - item: SPLASH_POTION
+            price: 40
+            name: "&cPocion de dano (splash)"
+            potion_type: HARMING
+      - category: CURA
+        items:
+          - item: GOLDEN_APPLE
+            price: 100
+          - item: ENCHANTED_GOLDEN_APPLE
+            price: 300
+          - item: POTION
+            price: 200
+            name: "&dPocion de Cura Zombie"
+            custom_item: cure_potion
+      - category: ESPECIALES
+        items:
+          - item: HONEY_BOTTLE
+            price: 20
+          - item: GLISTERING_MELON_SLICE
+            price: 15
+    sell_categories:
+      - category: MATERIALES_MEDICOS
+        items:
+          - item: GHAST_TEAR
+            price: 25
+          - item: SPIDER_EYE
+            price: 4
+          - item: FERMENTED_SPIDER_EYE
+            price: 8
+
+# ============================================================
+#  CUSTOM ITEMS (para pociones especiales etc)
+# ============================================================
+custom_items:
+  cure_potion:
+    material: POTION
+    display_name: "&d&lPocion de Cura Zombie"
+    lore:
+      - "&7Cura la infection zombie completamente."
+      - "&c&lEFECTO: Cura Instantanea IV + Regeneracion V"
+    potion_effects:
+      - type: INSTANT_HEAL
+        amplifier: 3
+        duration_ticks: 1
+      - type: REGENERATION
+        amplifier: 4
+        duration_ticks: 200
+    persistent_data:
+      type: cure_potion
+      value: "true"

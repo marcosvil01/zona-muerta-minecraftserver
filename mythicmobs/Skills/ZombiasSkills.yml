@@ -1,0 +1,93 @@
+# ============================================================
+#  ZONA MUERTA - Skills de MythicMobs
+#  Habilidades especiales para los zombis
+# ============================================================
+
+# Golpe aplastante del Mutante - stun + daño extra
+golpe_aplastante:
+  Skills:
+  - damage{a=10;ignore-armor=false} @target
+  - effect:particles{p=EXPLOSION_NORMAL;a=15;hs=0.8;vs=0.4} @target
+  - effect:sound{s=entity.ravager.attack;v=1.0;p=0.7} @self
+  - potion{t=SLOWNESS;d=60;amp=2} @target
+
+# Carga del soldado - arremetida hacia el objetivo
+carga_soldado:
+  Skills:
+  - projectile{onTick=carga_tick;onHit=carga_impacto;v=1.5;i=1;hR=1.5;sR=0;d=20} @self
+  - effect:sound{s=entity.zombie.attack_wooden_door;v=1.0;p=1.2} @self
+
+carga_tick:
+  Skills:
+  - effect:particles{p=SWEEP_ATTACK;a=3;hs=0.1;vs=0.1} @self
+
+carga_impacto:
+  Skills:
+  - damage{a=8} @target
+  - effect:particles{p=EXPLOSION_LARGE;a=5;hs=0.3;vs=0.3} @target
+  - effect:sound{s=entity.generic.big_fall;v=1.0;p=1.0} @target
+
+# Explosión del Explosivo al estar cerca
+explota_cerca:
+  Skills:
+  - effect:particles{p=SMOKE_LARGE;a=20;hs=1.0;vs=0.5} @caster
+  - effect:sound{s=entity.tnt.primed;v=1.0;p=1.5} @caster
+
+explosion_fatal:
+  Skills:
+  - explode{y=1.5;s=false;f=false;b=false;d=4} @self
+  - effect:particles{p=EXPLOSION_HUGE;a=1;hs=0;vs=0} @self
+  - effect:sound{s=entity.generic.explode;v=2.0;p=0.8} @self
+
+# Salto del Trepador
+salto_trepador:
+  Skills:
+  - leap{v=1.8;noise=0.4} @target
+  - damage{a=6} @PIR{r=2}
+  - effect:particles{p=CLOUD;a=10;hs=0.5;vs=0.3} @self
+
+# Ruge al aparecer (El Patrón)
+rugido_patron:
+  Skills:
+  - message{m="&4&l¡EL PATRÓN DESPERTÓ! ¡HUYAN O LUCHEN!"} @PIR{r=100}
+  - effect:sound{s=entity.ender_dragon.growl;v=2.0;p=0.5} @self
+  - effect:particles{p=EXPLOSION;a=20;hs=2.0;vs=1.0} @self
+  - potion{t=GLOWING;d=200;amp=0} @PIR{r=50}
+
+# Invocar horda alrededor del Patrón
+invoke_horda:
+  Skills:
+  - effect:sound{s=entity.zombie.ambient;v=2.0;p=0.6} @self
+  - effect:particles{p=EXPLOSION;a=10;hs=2.0;vs=1.0} @self
+  - message{m="&4¡La horda acude al llamado!"} @PIR{r=30}
+
+# Ataque tremendo del Patrón
+ataque_trepidante:
+  Skills:
+  - damage{a=15;ignore-armor=false} @target
+  - effect:particles{p=DRAGON_BREATH;a=30;hs=1.0;vs=0.5} @target
+  - potion{t=WITHER;d=60;amp=1} @target
+  - effect:sound{s=entity.wither.shoot;v=1.0;p=1.5} @self
+
+# Escudo temporal al recibir daño (20%)
+escudo_oscuro:
+  Skills:
+  - potion{t=DAMAGE_RESISTANCE;d=40;amp=2} @self
+  - effect:particles{p=SPELL_WITCH;a=20;hs=0.5;vs=1.0} @self
+  - effect:sound{s=entity.elder_guardian.curse;v=0.8;p=1.0} @self
+
+# Fase de rabia al 50% de vida
+fase_rabia:
+  Skills:
+  - message{m="&4&l¡EL PATRÓN ENTRA EN CÓLERA!"} @PIR{r=100}
+  - potion{t=SPEED;d=200;amp=1} @self
+  - effect:particles{p=FLAME;a=40;hs=1.0;vs=1.5} @self
+  - effect:sound{s=entity.ender_dragon.hurt;v=2.0;p=0.7} @self
+
+# Explosión final al morir el Patrón
+explosion_final:
+  Skills:
+  - effect:particles{p=EXPLOSION_EMITTER;a=5;hs=3.0;vs=2.0} @self
+  - effect:sound{s=entity.generic.explode;v=3.0;p=0.5} @self
+  - damage{a=20;ignore-armor=false} @EIR{r=10}
+  - potion{t=BLINDNESS;d=200;amp=0} @EIR{r=15}

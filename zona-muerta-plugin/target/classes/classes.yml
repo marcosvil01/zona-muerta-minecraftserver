@@ -1,0 +1,182 @@
+# ============================================================
+#  CLASS SYSTEM - Zona Muerta
+# ============================================================
+
+classes:
+  SURVIVOR:
+    display_name: "Superviviente"
+    description: "Clase por defecto. Sin habilidad activa, pero +10% XP bonus."
+    color: "&7"
+    permission: "zonamuerta.class.survivor"
+    passive_bonus:
+      type: xp_bonus
+      value: 10
+    starting_kit:
+      - item: IRON_SWORD
+        name: "&7Machete Oxidado"
+        enchantments:
+          DAMAGE_ALL: 2
+        custom_model_data: 1001
+      - item: TORCH
+        amount: 3
+      - item: BREAD
+
+  MEDIC:
+    display_name: "Medico"
+    description: "Curacion mejorada. Habilidad: Primeros Auxilios (cura 20% infection a target)."
+    color: "&a"
+    permission: "zonamuerta.class.medic"
+    passive_bonus:
+      type: cure_bonus
+      value: 50
+    skill:
+      name: "Primeros Auxilios"
+      description: "Cura 20% de infection al jugador objetivo."
+      cooldown_seconds: 180
+      type: medic_cure
+      cure_amount: 20
+    starting_kit:
+      - item: POTION
+        amount: 2
+        name: "&aPocion de Cura"
+      - item: PAPER
+        amount: 3
+        name: "&fVenda"
+        lore:
+          - "&7Restaura 10% de infection."
+      - item: BREAD
+
+  SOLDIER:
+    display_name: "Soldado"
+    description: "+15% dano. Habilidad: Grito de Guerra (speed + strength a todos en 20 blocks)."
+    color: "&c"
+    permission: "zonamuerta.class.soldier"
+    passive_bonus:
+      type: damage_bonus
+      value: 15
+    skill:
+      name: "Grito de Guerra"
+      description: "Da Speed I y Strength I a todos los jugadores cercanos por 30s."
+      cooldown_seconds: 300
+      type: rally_aoe
+      radius: 20
+      duration_ticks: 600
+    starting_kit:
+      - item: IRON_SWORD
+      - item: CHAINMAIL_HELMET
+      - item: CHAINMAIL_CHESTPLATE
+      - item: BREAD
+
+  SCAVENGER:
+    display_name: "Recolector"
+    description: "+25% drop chance. Habilidad: Sentir Botin (reveala cofres en 200 blocks)."
+    color: "&e"
+    permission: "zonamuerta.class.scavenger"
+    passive_bonus:
+      type: drop_bonus
+      value: 25
+    skill:
+      name: "Sentir Botin"
+      description: "Revela la ubicacion de cofres en 200 blocks por 10s."
+      cooldown_seconds: 120
+      type: reveal_loot
+      radius: 200
+      duration_ticks: 200
+    starting_kit:
+      - item: TORCH
+        amount: 3
+      - item: STRING
+        amount: 5
+        name: "&7Cuerda"
+      - item: BREAD
+        amount: 2
+
+  ENGINEER:
+    display_name: "Ingeniero"
+    description: "Especialista en fortificacion. Habilidad: Fortificar (construye defensa)."
+    color: "&9"
+    permission: "zonamuerta.class.engineer"
+    passive_bonus:
+      type: none
+      value: 0
+    skill:
+      name: "Fortificar"
+      description: "Construye una estructura defensiva de 8 bloques."
+      cooldown_seconds: 1800
+      type: build_defense
+      blocks:
+        - OAK_PLANKS: 4
+        - OAK_FENCE: 4
+    starting_kit:
+      - item: IRON_INGOT
+        amount: 5
+      - item: TORCH
+        amount: 2
+      - item: BREAD
+
+# ============================================================
+#  KITS COMPRABLES
+# ============================================================
+kits:
+  STARKIT:
+    display_name: "&6&lSTAR KIT"
+    description: "Equipamiento completo de combate."
+    price: 500
+    currency: ZP
+    items:
+      - item: DIAMOND_SWORD
+        enchantments:
+          DAMAGE_ALL: 2
+      - item: DIAMOND_HELMET
+        enchantments:
+          PROTECTION: 1
+      - item: DIAMOND_CHESTPLATE
+        enchantments:
+          PROTECTION: 1
+      - item: GOLDEN_APPLE
+        amount: 3
+      - item: TORCH
+        amount: 16
+
+  MEDICALKIT:
+    display_name: "&a&lMEDICAL KIT"
+    description: "Suministros medicos completos."
+    price: 300
+    currency: ZP
+    items:
+      - item: POTION
+        amount: 3
+      - item: PAPER
+        amount: 5
+        name: "&fVenda"
+      - item: GOLDEN_APPLE
+
+  EXPLORERKIT:
+    display_name: "&e&lEXPLORER KIT"
+    description: "Para exploradores y supervivientes solitarios."
+    price: 400
+    currency: ZP
+    items:
+      - item: IRON_SWORD
+      - item: SHIELD
+      - item: TORCH
+        amount: 32
+      - item: BREAD
+        amount: 3
+      - item: COMPASS
+
+  ZOMBIEHUNTERKIT:
+    display_name: "&c&lZOMBIE HUNTER KIT"
+    description: "El kit definitivo para cazar zombies."
+    price: 600
+    currency: ZP
+    items:
+      - item: CROSSBOW
+      - item: ARROW
+        amount: 24
+      - item: IRON_SWORD
+      - item: SPLASH_POTION
+        amount: 2
+        potion_type: HARMING
+      - item: TORCH
+        amount: 8

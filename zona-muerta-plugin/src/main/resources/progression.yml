@@ -1,0 +1,136 @@
+# ============================================================
+#  PROGRESSION SYSTEM - Zona Muerta
+#  Nivel, XP, Perks
+# ============================================================
+
+# Configuracion de niveles
+max_level: 100
+xp_per_level_base: 10  # XP requerido = nivel * 10
+
+# XP por kills de mobs ( MythicMobs types )
+xp_rewards:
+  ZombiCaminante: 5
+  ZombiCorredor: 10
+  ZombiSoldado: 15
+  ZombiMutante: 25
+  ZombiExplosivo: 12
+  ZombiTrepador: 10
+  ElPatron: 500
+  normal: 3
+
+# ============================================================
+#  PERKS POR NIVEL
+#  Se unlockean automaticamente al subir de nivel
+# ============================================================
+perks:
+  5:
+    id: zombie_slayer_1
+    name: "Cazador I"
+    description: "+15% dano contra zombies"
+    effect_type: damage_bonus
+    value: 15
+  10:
+    id: survivor_1
+    name: "Superviviente I"
+    description: "+2 corazones maximos"
+    effect_type: hearts_bonus
+    value: 2
+  15:
+    id: zombie_slayer_2
+    name: "Cazador II"
+    description: "+25% dano contra zombies"
+    effect_type: damage_bonus
+    value: 25
+  20:
+    id: survivor_2
+    name: "Superviviente II"
+    description: "+2 corazones maximos"
+    effect_type: hearts_bonus
+    value: 2
+  20:
+    id: scavenger_1
+    name: "Recolector I"
+    description: "+20% chance de drop"
+    effect_type: drop_bonus
+    value: 20
+  25:
+    id: zombie_slayer_3
+    name: "Cazador III"
+    description: "+35% dano contra zombies"
+    effect_type: damage_bonus
+    value: 35
+  30:
+    id: survivor_3
+    name: "Superviviente III"
+    description: "+2 corazones maximos"
+    effect_type: hearts_bonus
+    value: 2
+  35:
+    id: scavenger_2
+    name: "Recolector II"
+    description: "+30% chance de drop"
+    effect_type: drop_bonus
+    value: 30
+  40:
+    id: berserker
+    name: "Berserker"
+    description: "Al matar zombie: 5s de Speed I + Strength I"
+    effect_type: on_kill_buff
+    duration_ticks: 100
+    speed_amplifier: 0
+    strength_amplifier: 0
+  50:
+    id: apocalypse_ready
+    name: "Listo para el Apocalipsis"
+    description: "+5 corazones, immunity a primera infection del dia"
+    effect_type: hearts_bonus
+    value: 5
+  60:
+    id:解毒剂增强
+    name: "Curandero Experto"
+    description: "Manzanas doradas curan 50% mas infection"
+    effect_type: cure_bonus
+    value: 50
+  75:
+    id: horde_destroyer
+    name: "Destructor de Hordas"
+    description: "20% chance de critico (x2 dano)"
+    effect_type: crit_chance
+    value: 20
+  100:
+    id: 末日求生者
+    name: "Superviviente Final"
+    description: "+10 corazones, todos los perks anteriores activos"
+    effect_type: hearts_bonus
+    value: 10
+
+# ============================================================
+#  LOGROS / ACHIEVEMENTS
+# ============================================================
+achievements:
+  primer_zombie:
+    name: "Primer Paso"
+    description: "Mata tu primer zombie"
+    reward_xp: 50
+  mato_100_zombies:
+    name: "Cazador"
+    description: "Mata 100 zombies"
+    reward_item: machete_enriched
+  mato_mutante:
+    name: "Mutante Exterminado"
+    description: "Mata un ZombiMutante"
+    reward_xp: 200
+  mato_patron:
+    name: "El Patron Caido"
+    description: "Mata a ElPatron"
+    reward_xp: 2000
+    reward_zp: 2000
+    reward_item: machete_enriched
+  dias_30:
+    name: "Superviviente"
+    description: "Sobrevive 30 dias"
+    reward_item: MEDICALKIT
+  cures_10:
+    name: "Medico"
+    description: "Cura 10 jugadores infectados"
+    title: "Medico"

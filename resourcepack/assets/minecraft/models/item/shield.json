@@ -1,0 +1,9 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "item/shield"
+  },
+  "overrides": [
+    { "predicate": { "custom_model_data": 1005 }, "model": "item/zm_escudo_chatarra" }
+  ]
+}

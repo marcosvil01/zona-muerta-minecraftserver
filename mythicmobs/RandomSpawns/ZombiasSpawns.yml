@@ -1,0 +1,75 @@
+# ============================================================
+#  ZONA MUERTA - Spawns Aleatorios MythicMobs
+#  Los zombis aparecen de noche en el mundo
+# ============================================================
+
+# Caminantes abundantes en todo el mundo de noche
+ZombiCaminante_Spawn:
+  Type: ZombiCaminante
+  Worlds: world
+  Action: REPLACE
+  Conditions:
+  - lightlevel{l=<8} true
+  - biome{b=!MUSHROOM_FIELDS} true
+  Chance: 0.35
+  MaxMobs: 8
+  Priority: 5
+
+# Corredores aparecen en biomas abiertos de noche
+ZombiCorredor_Spawn:
+  Type: ZombiCorredor
+  Worlds: world
+  Action: REPLACE
+  Conditions:
+  - lightlevel{l=<6} true
+  - biome{b=PLAINS,SAVANNA,DESERT,TAIGA} true
+  Chance: 0.18
+  MaxMobs: 4
+  Priority: 5
+
+# Soldados aparecen cerca de estructuras
+ZombiSoldado_Spawn:
+  Type: ZombiSoldado
+  Worlds: world
+  Action: REPLACE
+  Conditions:
+  - lightlevel{l=<6} true
+  - biome{b=PLAINS,SAVANNA,SWAMP,FOREST} true
+  Chance: 0.08
+  MaxMobs: 2
+  Priority: 4
+
+# Mutantes son raros, aparecen en oscuridad profunda
+ZombiMutante_Spawn:
+  Type: ZombiMutante
+  Worlds: world
+  Action: REPLACE
+  Conditions:
+  - lightlevel{l=<4} true
+  Chance: 0.03
+  MaxMobs: 1
+  Priority: 3
+
+# Explosivos en desiertos y llanuras abiertas
+ZombiExplosivo_Spawn:
+  Type: ZombiExplosivo
+  Worlds: world
+  Action: REPLACE
+  Conditions:
+  - lightlevel{l=<6} true
+  - biome{b=DESERT,BADLANDS,SAVANNA} true
+  Chance: 0.10
+  MaxMobs: 3
+  Priority: 4
+
+# Trepadores aparecen en biomas con arboles
+ZombiTrepador_Spawn:
+  Type: ZombiTrepador
+  Worlds: world
+  Action: REPLACE
+  Conditions:
+  - lightlevel{l=<6} true
+  - biome{b=FOREST,JUNGLE,DARK_FOREST,TAIGA} true
+  Chance: 0.12
+  MaxMobs: 3
+  Priority: 4

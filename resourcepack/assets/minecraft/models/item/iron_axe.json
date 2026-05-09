@@ -1,0 +1,9 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "item/iron_axe"
+  },
+  "overrides": [
+    { "predicate": { "custom_model_data": 1003 }, "model": "item/zm_hacha_oxidada" }
+  ]
+}

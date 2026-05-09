@@ -1,0 +1,752 @@
+# ===================================================================
+# Zona Muerta - Configuracion
+# Version: 1.0.0
+# ===================================================================
+
+# -------------------
+# Ajustes de Depuracion
+# -------------------
+debug:
+  # Activa registros detallados en consola para diagnostico.
+  enabled: false
+
+# Lista opcional de mundos donde el plugin esta activo. Dejar vacio para todos los mundos.
+world-whitelist: []
+
+# -------------------
+# Presets de Dificultad
+# -------------------
+# Presets disponibles: casual, normal, hardcore, nightmare
+# Usa /zm dificultad <nombre> para cambiar de preset
+# Esto sobreescribira muchos ajustes de abajo con los valores del preset
+difficulty:
+  # El preset activo actualmente (casual, normal, hardcore, nightmare, o custom)
+  current_preset: normal
+  
+  # Definiciones de presets - estos valores se aplican al cambiar de preset
+  # Guia de campos por preset:
+  #   description: Texto descriptivo del preset.
+  #   mutation_rate_base / mutation_rate_daily_increase: Base y crecimiento diario de probabilidad de mutacion.
+  #   zombie_base_speed / zombie_base_damage: Estadisticas base de combate de zombies.
+  #   zombie_max_speed / zombie_max_damage: Topes maximos del escalado.
+  #   max_zombies_per_chunk / max_zombies_worldwide: Limites de densidad de aparicion.
+  #   bloodmoon_enabled / bloodmoon_frequency: Activar luna roja e intervalo.
+  #   allow_golden_apple_cure / golden_apple_cure: Cura de infeccion con manzanas doradas.
+  #   infection_chance_on_hit: Probabilidad de infeccion al ser golpeado.
+  #   spawn_rate_multiplier: Multiplicador global de presion de aparicion.
+  #   zombie_speed_multiplier / zombie_damage_multiplier: Multiplicadores aplicados a las estadisticas del preset.
+  presets:
+    casual:
+      description: "Experiencia zombie relajada para jugadores casuales"
+      mutation_rate_base: 5.0
+      mutation_rate_daily_increase: 0.5
+      zombie_base_speed: 0.20
+      zombie_base_damage: 1.5
+      zombie_max_speed: 0.28
+      zombie_max_damage: 20.0
+      max_zombies_per_chunk: 10
+      max_zombies_worldwide: 50
+      bloodmoon_enabled: true
+      bloodmoon_frequency: 7
+      allow_golden_apple_cure: true
+      infection_chance_on_hit: 2.0
+      spawn_rate_multiplier: 0.5
+      zombie_speed_multiplier: 0.87
+      zombie_damage_multiplier: 0.75
+      golden_apple_cure: true
+    normal:
+      description: "Experiencia estandar de apocalipsis zombie"
+      mutation_rate_base: 10.0
+      mutation_rate_daily_increase: 1.5
+      zombie_base_speed: 0.23
+      zombie_base_damage: 2.0
+      zombie_max_speed: 0.35
+      zombie_max_damage: 40.0
+      max_zombies_per_chunk: 20
+      max_zombies_worldwide: 100
+      bloodmoon_enabled: true
+      bloodmoon_frequency: 5
+      allow_golden_apple_cure: true
+      infection_chance_on_hit: 5.0
+      spawn_rate_multiplier: 1.0
+      zombie_speed_multiplier: 1.00
+      zombie_damage_multiplier: 1.00
+      golden_apple_cure: true
+    hardcore:
+      description: "Experiencia de supervivencia desafiante"
+      mutation_rate_base: 25.0
+      mutation_rate_daily_increase: 2.5
+      zombie_base_speed: 0.26
+      zombie_base_damage: 3.0
+      zombie_max_speed: 0.40
+      zombie_max_damage: 60.0
+      max_zombies_per_chunk: 30
+      max_zombies_worldwide: 150
+      bloodmoon_enabled: true
+      bloodmoon_frequency: 3
+      allow_golden_apple_cure: true
+      infection_chance_on_hit: 10.0
+      spawn_rate_multiplier: 1.5
+      zombie_speed_multiplier: 1.13
+      zombie_damage_multiplier: 1.50
+      golden_apple_cure: true
+    nightmare:
+      description: "Supervivencia brutal - no apto para cobardes"
+      mutation_rate_base: 100.0
+      mutation_rate_daily_increase: 0.0
+      zombie_base_speed: 0.30
+      zombie_base_damage: 4.0
+      zombie_max_speed: 0.50
+      zombie_max_damage: 100.0
+      max_zombies_per_chunk: 40
+      max_zombies_worldwide: 200
+      bloodmoon_enabled: true
+      bloodmoon_frequency: 2
+      allow_golden_apple_cure: false
+      infection_chance_on_hit: 25.0
+      spawn_rate_multiplier: 2.0
+      zombie_speed_multiplier: 1.30
+      zombie_damage_multiplier: 2.00
+      golden_apple_cure: false
+
+# -------------------
+# Estadisticas Generales de Zombies
+# -------------------
+zombie_stats:
+  # Velocidad base de movimiento de un zombie recien aparecido (0.23 es el valor por defecto).
+  base_speed: 0.23
+  # Dano base de ataque de un zombie recien aparecido.
+  base_damage: 2.0
+  # Tope maximo de velocidad que un zombie puede alcanzar con el escalado diario.
+  max_speed: 0.35
+  # Tope maximo de dano que un zombie puede alcanzar con el escalado diario.
+  max_damage: 40.0
+
+# -------------------
+# Tasas de Mutacion
+# -------------------
+mutation_rates:
+  # Probabilidad base (%) de que un zombie aparezca como mutacion especial.
+  base: 10.0
+  # Cuanto aumenta la probabilidad de mutacion (%) cada dia.
+  daily_increase: 1.5
+
+# -------------------
+# Reglas de Aparicion
+# -------------------
+zombies:
+  # Cuando deben aparecer los zombies?
+  # day   - Solo de amanecer a atardecer.
+  # night - Solo de atardecer a amanecer.
+  # both  - Todo el tiempo.
+  spawn_time_mode: both
+  # Si es true, los zombies solo intentaran aparecer en niveles de luz bajos.
+  require_darkness: true
+  # Nivel maximo de luz de un bloque para que un zombie pueda aparecer en el.
+  max_light_level: 7
+  # Numero maximo de zombies permitidos en un solo chunk a la vez.
+  max_per_chunk: 20
+  # Numero maximo de zombies permitidos en todo el mundo.
+  max_worldwide: 100
+  # Si es true, las comprobaciones de oscuridad se ignoran durante la Luna Roja.
+  bloodmoon_ignores_darkness: true
+  # Si es true, los zombies arderan con la luz solar como los zombies normales.
+  burn_in_sunlight: false
+  # Si es true, las lunas rojas ocurriran periodicamente.
+  bloodmoon_enabled: true
+  # Cada cuantos dias ocurre una luna roja.
+  bloodmoon_frequency: 5
+  # Distancias minima y maxima del jugador donde pueden aparecer zombies (en bloques).
+  closest_to_player: 2
+  furthest_from_player: 30
+
+# -------------------
+# Programacion de Eventos
+# -------------------
+events:
+  bloodmoon:
+    # Multiplicadores por defecto usados por lunas rojas periodicas y /zm forzarlunaroja.
+    default_spawn_multiplier: 2.0
+    default_mutation_multiplier: 10.0
+
+    # Si es true, usa la lista de programacion de abajo en lugar del simple "cada X dias".
+    schedule_enabled: false
+
+    # Entradas de programacion tipo cron:
+    # days soporta:
+    #   "*"      = cada dia
+    #   "*/5"    = cada 5 dias
+    #   "3,7,12" = dias especificos
+    #   "10-20"  = rango de dias inclusivo
+    # start_tick y end_tick son ticks de tiempo del mundo de Minecraft (0-23999).
+    # Si start_tick > end_tick, la ventana cruza la medianoche.
+    # id es solo una etiqueta para legibilidad y registros.
+    # spawn_multiplier y mutation_multiplier controlan la intensidad durante esta ventana.
+    schedule:
+      - id: standard_night
+        days: "*/5"
+        start_tick: 13000
+        end_tick: 23000
+        spawn_multiplier: 2.0
+        mutation_multiplier: 10.0
+
+# -------------------
+# Sistema de Mutaciones
+# -------------------
+mutation_system:
+  # Si es true, los zombies mostraran su tipo de mutacion como placa sobre su cabeza.
+  show_mutation_names_above_zombies: true
+
+# ===================================================================
+# Configuracion Por Mundo
+# ===================================================================
+# Configura diferente comportamiento zombie para cada mundo.
+# Si un mundo no esta listado aqui, usa los ajustes por defecto de arriba.
+#
+# Ajustes disponibles por mundo:
+#   enabled: true/false - Si los zombies aparecen en este mundo
+#   mutation_rate_multiplier: 1.0 - Multiplica la tasa base de mutacion
+#   spawn_rate_multiplier: 1.0 - Multiplica la frecuencia de aparicion
+#   damage_multiplier: 1.0 - Multiplica el dano de los zombies
+#   speed_multiplier: 1.0 - Multiplica la velocidad de los zombies
+#   health_multiplier: 1.0 - Multiplica la vida de los zombies
+#   fire_immune: false - Zombies inmunes al fuego
+#   can_teleport: false - Zombies pueden teletransportarse como Endermen
+#   teleport_chance: 0.1 - Probabilidad de teletransporte al recibir dano
+#   teleport_range: 8 - Distancia maxima de teletransporte
+#   enabled_mutations: [] - Solo estas mutaciones pueden aparecer (vacio = todas)
+#   disabled_mutations: [] - Estas mutaciones no pueden aparecer
+#   custom_spawn_time_mode: null - Sobreescribir spawn_time_mode para este mundo
+#   max_zombies_override: null - Sobreescribir max_worldwide para este mundo
+world_settings:
+  world:
+    enabled: true
+    mutation_rate_multiplier: 1.0
+    spawn_rate_multiplier: 1.0
+    damage_multiplier: 1.0
+    speed_multiplier: 1.0
+    health_multiplier: 1.0
+    fire_immune: false
+    can_teleport: false
+    enabled_mutations: []
+    disabled_mutations: []
+  
+  world_nether:
+    enabled: true
+    mutation_rate_multiplier: 1.5
+    spawn_rate_multiplier: 1.2
+    damage_multiplier: 1.5
+    speed_multiplier: 1.2
+    health_multiplier: 1.3
+    fire_immune: true
+    can_teleport: false
+    # Solo mutaciones relacionadas con fuego en el nether
+    enabled_mutations:
+      - inferno
+      - burster
+      - tank
+      - charger
+    disabled_mutations: 
+      - frost
+      - cryo
+    custom_spawn_time_mode: both
+  
+  world_the_end:
+    enabled: true
+    mutation_rate_multiplier: 2.0
+    spawn_rate_multiplier: 0.8
+    damage_multiplier: 2.0
+    speed_multiplier: 1.0
+    health_multiplier: 1.5
+    fire_immune: false
+    can_teleport: true
+    teleport_chance: 0.15
+    teleport_range: 10
+    # El End tiene mutaciones unicas y peligrosas
+    enabled_mutations:
+      - assassin
+      - shrieker
+      - leech
+    disabled_mutations: []
+    custom_spawn_time_mode: both
+    max_zombies_override: 50
+
+# ===================================================================
+# Sistema de Zonas Seguras
+# ===================================================================
+# Las zonas seguras son areas protegidas donde los zombies no pueden aparecer ni entrar.
+# Los jugadores pueden crear zonas seguras con /zm zonasegura crear <nombre>
+safezones:
+  # Activar o desactivar el sistema de zonas seguras
+  enabled: true
+  # Radio por defecto (en bloques) para nuevas zonas seguras
+  default_radius: 10
+  # Radio maximo al que se puede expandir una zona segura
+  max_radius: 50
+  # Numero maximo de zonas seguras que un jugador puede tener
+  max_per_player: 3
+  # Si es true, los zombies dentro seran teletransportados fuera al crear la zona
+  remove_zombies_on_create: true
+  # Si es true, mostrar particulas en los bordes de las zonas seguras
+  show_border_particles: true
+  # Cada cuantos ticks mostrar particulas de borde (20 ticks = 1 segundo)
+  border_particle_interval: 40
+
+# ===================================================================
+# Tipos de Mutacion
+# ===================================================================
+# Cada tipo de mutacion define como se comporta una variante especial de zombie.
+# spawn_chance: Peso relativo para que esta mutacion sea elegida (mayor = mas comun).
+# health_multiplier / speed_multiplier / damage_multiplier: Modificadores de estadisticas.
+# damage_bonus: Escalado extra de ataque usado por mutaciones rapidas.
+# base_health: Sobreescritura directa de vida maxima base para esa mutacion.
+# flash_freeze_chance: Probabilidad (%) de aplicar explosion cryo al golpear.
+# frozen_trail_duration: Segundos que persisten los bloques/efectos de rastro congelado.
+# shatter_damage: Dano causado por la explosion de muerte cryo.
+# fireball_cooldown: Segundos entre ataques de bola de fuego del inferno.
+# scorched_earth_duration: Segundos que permanece activo el rastro de fuego.
+# meltdown_enabled: Si es true, la muerte del inferno puede colocar lava.
+# leech_aura_damage / leech_aura_radius: Valores del aura pasiva de robo de vida.
+# leech_on_hit_heal_multiplier: Porcentaje del dano infligido devuelto como curacion al golpear.
+# death_heal_amount / death_heal_radius: Cantidad/radio de curacion explosiva al morir sanguijuela.
+# abilities: Activar o desactivar habilidades individuales.
+mutation_types:
+  tank:
+    spawn_chance: 15.0
+    health_multiplier: 3.0
+    speed_multiplier: 0.6
+    damage_multiplier: 1.5
+    abilities:
+      resistance: true
+  charger:
+    spawn_chance: 15.0
+    health_multiplier: 0.8
+    speed_multiplier: 2.2
+    damage_bonus: 1.5
+    abilities:
+      speed_boost: true
+  assassin:
+    spawn_chance: 15.0
+    base_health: 8.0
+    damage_multiplier: 2.5
+    abilities:
+      invisibility: true
+      particle_aura: true
+  blight:
+    spawn_chance: 15.0
+    abilities:
+      poison_effect: true
+      particle_aura: true
+  burster:
+    spawn_chance: 15.0
+    abilities:
+      explosion_on_death: true
+      poison_cloud: true
+      speed_boost_on_chase: true
+  spitter:
+    spawn_chance: 15.0
+    abilities:
+      projectile_attack: true
+  frost:
+    spawn_chance: 10.0
+    abilities:
+      slowness_effect: true
+  shrieker:
+    spawn_chance: 10.0
+    abilities:
+      aggro_nearby_zombies: true
+  cryo:
+    spawn_chance: 10.0
+    flash_freeze_chance: 25.0
+    frozen_trail_duration: 5
+    shatter_damage: 5.0
+    abilities:
+      frozen_trail: true
+      flash_freeze: true
+      shatter_explosion: true
+      slowness_effect: true
+  inferno:
+    spawn_chance: 10.0
+    fireball_cooldown: 5
+    scorched_earth_duration: 5
+    meltdown_enabled: true
+    abilities:
+      fireball_attack: true
+      scorched_earth_trail: true
+      lava_on_death: true
+  leech:
+    spawn_chance: 10.0
+    health_multiplier: 1.2
+    damage_multiplier: 0.8
+    leech_aura_damage: 1.0
+    leech_aura_radius: 5.0
+    leech_on_hit_heal_multiplier: 0.5
+    death_heal_amount: 10.0
+    death_heal_radius: 8.0
+    abilities:
+      life_steal_aura: true
+      life_steal_on_hit: true
+      healing_explosion: true
+
+# ===================================================================
+# Drops de Botin
+# ===================================================================
+# Configura que objetos suelta cada tipo de zombie al morir.
+# enabled: Si este tipo de zombie suelta botin.
+# detailed_items: Cada entrada tiene un nombre de material y un drop_chance (%).
+loot_drops:
+  normal:
+    enabled: true
+    detailed_items:
+      ROTTEN_FLESH:
+        material: ROTTEN_FLESH
+        drop_chance: 50.0
+      DIAMOND:
+        material: DIAMOND
+        drop_chance: 5.0
+  tank:
+    enabled: true
+    detailed_items:
+      IRON_INGOT:
+        material: IRON_INGOT
+        drop_chance: 20.0
+      SHIELD:
+        material: SHIELD
+        drop_chance: 20.0
+      DIAMOND:
+        material: DIAMOND
+        drop_chance: 5.0
+      ENCHANTED_BOOK:
+        material: ENCHANTED_BOOK
+        drop_chance: 3.0
+  charger:
+    enabled: true
+    detailed_items:
+      GOLD_INGOT:
+        material: GOLD_INGOT
+        drop_chance: 15.0
+      GLOWSTONE_DUST:
+        material: GLOWSTONE_DUST
+        drop_chance: 10.0
+      FIRE_CHARGE:
+        material: FIRE_CHARGE
+        drop_chance: 8.0
+      ENDER_PEARL:
+        material: ENDER_PEARL
+        drop_chance: 5.0
+  assassin:
+    enabled: true
+    detailed_items:
+      FERMENTED_SPIDER_EYE:
+        material: FERMENTED_SPIDER_EYE
+        drop_chance: 10.0
+      GUNPOWDER:
+        material: GUNPOWDER
+        drop_chance: 10.0
+      AMETHYST_SHARD:
+        material: AMETHYST_SHARD
+        drop_chance: 8.0
+      ENDER_PEARL:
+        material: ENDER_PEARL
+        drop_chance: 8.0
+      ECHO_SHARD:
+        material: ECHO_SHARD
+        drop_chance: 5.0
+      DIAMOND:
+        material: DIAMOND
+        drop_chance: 3.0
+  blight:
+    enabled: true
+    detailed_items:
+      SPIDER_EYE:
+        material: SPIDER_EYE
+        drop_chance: 15.0
+      POISONOUS_POTATO:
+        material: POISONOUS_POTATO
+        drop_chance: 15.0
+      HONEYCOMB:
+        material: HONEYCOMB
+        drop_chance: 10.0
+      EMERALD:
+        material: EMERALD
+        drop_chance: 8.0
+  burster:
+    enabled: true
+    detailed_items:
+      GUNPOWDER:
+        material: GUNPOWDER
+        drop_chance: 15.0
+      SLIME_BALL:
+        material: SLIME_BALL
+        drop_chance: 15.0
+      SAND:
+        material: SAND
+        drop_chance: 10.0
+      EMERALD:
+        material: EMERALD
+        drop_chance: 8.0
+  spitter:
+    enabled: true
+    detailed_items:
+      FERMENTED_SPIDER_EYE:
+        material: FERMENTED_SPIDER_EYE
+        drop_chance: 15.0
+      EXPERIENCE_BOTTLE:
+        material: EXPERIENCE_BOTTLE
+        drop_chance: 15.0
+      BLAZE_POWDER:
+        material: BLAZE_POWDER
+        drop_chance: 15.0
+      REDSTONE:
+        material: REDSTONE
+        drop_chance: 15.0
+  frost:
+    enabled: true
+    detailed_items:
+      SNOWBALL:
+        material: SNOWBALL
+        drop_chance: 15.0
+      ICE:
+        material: ICE
+        drop_chance: 15.0
+      PACKED_ICE:
+        material: PACKED_ICE
+        drop_chance: 15.0
+      BLUE_ICE:
+        material: BLUE_ICE
+        drop_chance: 15.0
+  shrieker:
+    enabled: true
+    detailed_items:
+      ECHO_SHARD:
+        material: ECHO_SHARD
+        drop_chance: 20.0
+      AMETHYST_SHARD:
+        material: AMETHYST_SHARD
+        drop_chance: 20.0
+      IRON_INGOT:
+        material: IRON_INGOT
+        drop_chance: 20.0
+      DIAMOND:
+        material: DIAMOND
+        drop_chance: 5.0
+  cryo:
+    enabled: true
+    detailed_items:
+      ICE:
+        material: ICE
+        drop_chance: 10.0
+      PACKED_ICE:
+        material: PACKED_ICE
+        drop_chance: 10.0
+      SNOW_BLOCK:
+        material: SNOW_BLOCK
+        drop_chance: 10.0
+      BLUE_ICE:
+        material: BLUE_ICE
+        drop_chance: 10.0
+      DIAMOND:
+        material: DIAMOND
+        drop_chance: 5.0
+      NETHERITE_SCRAP:
+        material: NETHERITE_SCRAP
+        drop_chance: 3.0
+  inferno:
+    enabled: true
+    detailed_items:
+      BLAZE_POWDER:
+        material: BLAZE_POWDER
+        drop_chance: 15.0
+      MAGMA_CREAM:
+        material: MAGMA_CREAM
+        drop_chance: 15.0
+      COAL:
+        material: COAL
+        drop_chance: 15.0
+      FIRE_CHARGE:
+        material: FIRE_CHARGE
+        drop_chance: 15.0
+      GOLD_INGOT:
+        material: GOLD_INGOT
+        drop_chance: 15.0
+      ANCIENT_DEBRIS:
+        material: ANCIENT_DEBRIS
+        drop_chance: 2.0
+      NETHERITE_SCRAP:
+        material: NETHERITE_SCRAP
+        drop_chance: 5.0
+  leech:
+    enabled: true
+    detailed_items:
+      GHAST_TEAR:
+        material: GHAST_TEAR
+        drop_chance: 10.0
+      IRON_NUGGET:
+        material: IRON_NUGGET
+        drop_chance: 10.0
+      EMERALD:
+        material: EMERALD
+        drop_chance: 10.0
+      LAPIS_LAZULI:
+        material: LAPIS_LAZULI
+        drop_chance: 10.0
+      DIAMOND:
+        material: DIAMOND
+        drop_chance: 5.0
+      HEART_OF_THE_SEA:
+        material: HEART_OF_THE_SEA
+        drop_chance: 3.0
+
+# ===================================================================
+# Configuracion Avanzada de IA
+# ===================================================================
+# Controla como los zombies detectan y persiguen jugadores.
+ai:
+  # Tiempo (en milisegundos) que un zombie recuerda a un jugador tras perderlo de vista.
+  memory_duration: 5000
+  # Rangos de ruido - a que distancia (en bloques) ciertas acciones del jugador atraen zombies.
+  noise:
+    sprint_range: 20
+    eating_range: 12
+    bow_range: 25
+    torch_range: 30
+  # Comportamiento grupal - los zombies pueden formar manadas con un lider.
+  group:
+    # Probabilidad (0.0-1.0) de que un grupo aparecido tenga un lider.
+    leader_chance: 0.3
+    # Radio usado para propagar agresion en manada.
+    radius: 15
+    # Distancia que los seguidores intentan mantener de su lider.
+    follow_radius: 10
+  # Destruccion de bloques - los zombies pueden romper ciertos bloques para alcanzar jugadores.
+  breaking:
+    # Interruptor principal para la IA de destruccion de bloques.
+    enabled: true
+    # Distancia maxima del zombie para considerar bloques para destruir.
+    radius: 2
+    # Retraso de destruccion por defecto (ticks) si un bloque no tiene sobreescritura.
+    default_cooldown_ticks: 60
+    # Sobreescrituras de tiempo por bloque en ticks.
+    blocks:
+      OAK_DOOR:
+        cooldown_ticks: 40
+      ACACIA_DOOR:
+        cooldown_ticks: 40
+      SPRUCE_DOOR:
+        cooldown_ticks: 40
+      BIRCH_DOOR:
+        cooldown_ticks: 40
+      JUNGLE_DOOR:
+        cooldown_ticks: 40
+      DARK_OAK_DOOR:
+        cooldown_ticks: 40
+      CRIMSON_DOOR:
+        cooldown_ticks: 40
+      WARPED_DOOR:
+        cooldown_ticks: 40
+      TRAPPED_CHEST:
+        cooldown_ticks: 50
+      CHEST:
+        cooldown_ticks: 50
+      OAK_FENCE:
+        cooldown_ticks: 30
+      SPRUCE_FENCE:
+        cooldown_ticks: 30
+      BIRCH_FENCE:
+        cooldown_ticks: 30
+      JUNGLE_FENCE:
+        cooldown_ticks: 30
+      DARK_OAK_FENCE:
+        cooldown_ticks: 30
+      ACACIA_FENCE:
+        cooldown_ticks: 30
+
+# ===================================================================
+# Sistema de Evolucion
+# ===================================================================
+# Los zombies ganan experiencia al matar mobs y jugadores, subiendo de nivel para volverse mas fuertes.
+evolution:
+  # Interruptor principal para el sistema de niveles/evolucion.
+  enabled: true
+  # Experiencia ganada por matar un mob pasivo (animales, aldeanos).
+  exp_per_passive_mob: 1.0
+  # Experiencia ganada por matar un jugador.
+  exp_per_player_kill: 10.0
+  # Nivel maximo que un zombie puede alcanzar. Al nivel maximo, los zombies normales pueden mutar.
+  max_level: 10
+
+# ===================================================================
+# Sistema de Infeccion
+# ===================================================================
+# Los jugadores pueden infectarse al ser golpeados por zombies.
+# Al 100% de infeccion, el jugador se convierte en zombie con una mutacion aleatoria.
+infection_system:
+  # Interruptor principal para las mecanicas de infeccion.
+  enabled: true
+  # Probabilidad (%) por golpe de que el jugador se infecte.
+  chance_on_hit: 5.0
+  # Cuanto (%) aumenta la infeccion por cada tirada de infeccion exitosa.
+  infection_increase: 10.0
+  # Porcentaje maximo de infeccion (activa la zombificacion completa).
+  max_infection: 100.0
+  # Si es true, mostrar una barra de jefe con el nivel de infeccion actual.
+  show_infection_bar: true
+  # Si es true, las manzanas doradas pueden reducir la infeccion.
+  allow_golden_apple_cure: true
+  # Cuanto (%) reduce la infeccion una manzana dorada.
+  golden_apple_cure_percent: 20.0
+  # Cuanto (%) reduce la infeccion una manzana dorada encantada.
+  enchanted_golden_apple_cure_percent: 50.0
+
+# ===================================================================
+# Sistema de Progresion (Niveles + Perks)
+# ===================================================================
+progression:
+  enabled: true
+  max_level: 100
+  xp_per_level_base: 10
+  xp_rewards:
+    ZombiCaminante: 5
+    ZombiCorredor: 10
+    ZombiSoldado: 15
+    ZombiMutante: 25
+    ZombiExplosivo: 12
+    ZombiTrepador: 10
+    ElPatron: 500
+    normal: 3
+
+# ===================================================================
+# Sistema de Clases
+# ===================================================================
+classes:
+  enabled: true
+  starting_kit_enabled: true
+
+# ===================================================================
+# Sistema de Economia
+# ===================================================================
+economy:
+  enabled: true
+  starting_balance: 100
+  currency_name: ZP
+
+# ===================================================================
+# Sistema de Quests
+# ===================================================================
+quests:
+  enabled: true
+  daily_reset_enabled: true
+
+# ===================================================================
+# Drops Personalizados
+# ===================================================================
+custom_drops:
+  zombie_heart:
+    enabled: true
+    drop_chance: 5.0
+
+# ===================================================================
+# Datos Persistentes (NO EDITAR MANUALMENTE)
+# ===================================================================
+data:
+  current_day: 0

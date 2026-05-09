@@ -1,0 +1,65 @@
+﻿name: ZonaMuerta
+version: 2.2.0
+main: com.zonamuerta.plugin.ZonaMuerta
+api-version: '1.21'
+description: Apocalipsis zombie para Minecraft — Sistema completo con armas, MythicMobs, infeccion, clases, progression y economia
+softdepend: [MythicMobs, PlaceholderAPI]
+commands:
+  zonamuerta:
+    description: Comando principal de Zona Muerta
+    usage: /<command> <reload|info|level|class|skill|balance|trader|sell|kit|safezone|event|dificultad|stats|ah>
+    aliases: [zm]
+  auctionhouse:
+    description: Casa de subastas
+    usage: /<command> [create|mis|bid|buyout]
+    aliases: [ah,subasta]
+  stats:
+    description: Estadisticas del jugador
+    usage: /<command>
+    aliases: [estadisticas]
+permissions:
+  zonamuerta.admin:
+    description: Acceso a comandos de administrador
+    default: op
+  zonamuerta.spawn:
+    description: Permite spawnear zombies manualmente
+    default: op
+  zonamuerta.safezone:
+    description: Permite crear y gestionar zonas seguras
+    default: true
+  zonamuerta.kit:
+    description: Permite recibir el kit de supervivencia
+    default: true
+  zonamuerta.class.survivor:
+    description: Puede seleccionar clase Superviviente
+    default: true
+  zonamuerta.class.medic:
+    description: Puede seleccionar clase Medico
+    default: true
+  zonamuerta.class.soldier:
+    description: Puede seleccionar clase Soldado
+    default: true
+  zonamuerta.class.scavenger:
+    description: Puede seleccionar clase Recolector
+    default: true
+  zonamuerta.class.engineer:
+    description: Puede seleccionar clase Ingeniero
+    default: true
+  zonamuerta.skill:
+    description: Puede usar habilidades de clase
+    default: true
+  zonamuerta.trader:
+    description: Puede usar traders y economia
+    default: true
+  zonamuerta.auction:
+    description: Puede usar la casa de subastas
+    default: true
+  zonamuerta.stats:
+    description: Puede ver sus estadisticas
+    default: true
+  zonamuerta.scoreboard:
+    description: Puede ver el scoreboard
+    default: true
+  zonamuerta.anticheat.bypass:
+    description: Ignora el anticheat
+    default: op

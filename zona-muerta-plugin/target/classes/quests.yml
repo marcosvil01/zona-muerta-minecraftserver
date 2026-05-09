@@ -1,0 +1,226 @@
+# ============================================================
+#  QUEST SYSTEM - Zona Muerta
+# ============================================================
+
+# Configuracion general
+settings:
+  daily_reset_hour: 0  # 0 = midnight server time
+  max_daily_quests: 4
+  max_weekly_quests: 3
+
+# ============================================================
+#  QUESTS DIARIAS (se resetean cada dia)
+# ============================================================
+daily_quests:
+  cazador:
+    name: "&cCazador"
+    description: "Mata 10 zombies"
+    type: KILL_MOBS
+    target: 10
+    target_mobs:
+      - ZombiCaminante
+      - ZombiCorredor
+      - ZombiSoldado
+      - ZombiMutante
+      - ZombiExplosivo
+      - ZombiTrepador
+    rewards:
+      xp: 100
+      zp: 50
+    display_icon: DIAMOND_SWORD
+    priority: 1
+
+  coleccionista:
+    name: "&eColeccionista"
+    description: "Consigue 5 tipos diferentes de loot zombie"
+    type: COLLECT_ITEMS
+    target: 5
+    required_items:
+      - ROTTEN_FLESH
+      - BONE
+      - IRON_NUGGET
+      - STRING
+      - SPIDER_EYE
+      - GUNPOWDER
+    rewards:
+      xp: 150
+      zp: 100
+    display_icon: CHEST
+    priority: 2
+
+  medico_quest:
+    name: "&aMedico"
+    description: "Cura la infection de 1 jugador"
+    type: CURE_PLAYER
+    target: 1
+    rewards:
+      xp: 100
+      item: cure_potion
+    display_icon: GOLDEN_APPLE
+    priority: 3
+
+  limpieza:
+    name: "&6Limpieza"
+    description: "Limpia una zona con 30+ zombies activos"
+    type: CLEAR_ZONE
+    target: 30
+    radius: 20
+    rewards:
+      xp: 200
+      zp: 150
+    display_icon: BARRIER
+    priority: 4
+
+  explorador:
+    name: "&bExplorador"
+    description: "Encuentra 3 estructuras (ruined house, hospital, checkpoint)"
+    type: EXPLORE_STRUCTURES
+    target: 3
+    structure_types:
+      - ruined_house_1
+      - ruined_hospital
+      - military_checkpoint
+    rewards:
+      xp: 250
+      zp: 200
+    display_icon: MAP
+    priority: 5
+
+# ============================================================
+#  QUESTS SEMANALES (se resetean cada 7 dias)
+# ============================================================
+weekly_quests:
+  horda:
+    name: "&cDestructor de Hordas"
+    description: "Mata 100 zombies en total"
+    type: KILL_MOBS
+    target: 100
+    target_mobs:
+      - ZombiCaminante
+      - ZombiCorredor
+      - ZombiSoldado
+      - ZombiMutante
+      - ZombiExplosivo
+      - ZombiTrepador
+      - ElPatron
+    rewards:
+      xp: 500
+      zp: 300
+      item: DIAMOND
+        amount: 2
+    display_icon: NETHERITE_SWORD
+    cooldown_days: 7
+
+  superviviente:
+    name: "&aSuperviviente Legendario"
+    description: "Sobrevive 7 dias sin morir"
+    type: SURVIVE_DAYS
+    target: 7
+    rewards:
+      xp: 750
+      hearts_bonus: 2
+    display_icon: GOLDEN_APPLE
+    cooldown_days: 7
+
+  arquitecto:
+    name: "&9Arquitecto"
+    description: "Construye una base defensiva (50+ bloques)"
+    type: BUILD_STRUCTURE
+    target: 50
+    blocks_required:
+      - OAK_PLANKS
+      - OAK_FENCE
+      - COBBLESTONE
+    rewards:
+      xp: 600
+      zp: 500
+    display_icon: HAMMER
+    cooldown_days: 7
+
+  cazar_patron:
+    name: "&4&lEl Patron V2"
+    description: "Mata a ElPatron durante Luna de Sangre"
+    type: KILL_BOSS
+    target: 1
+    target_mobs:
+      - ElPatron
+    requires_blood_moon: true
+    rewards:
+      xp: 2000
+      zp: 1000
+      item: zm_arma_patron
+    display_icon: NETHERITE_AXE
+    cooldown_days: 14
+
+# ============================================================
+#  QUESTS PRINCIPALES (una vez, no se resetean)
+# ============================================================
+main_quests:
+  primer_paso:
+    name: "&7Primer Paso"
+    description: "Mata tu primer zombie"
+    type: KILL_MOBS
+    target: 1
+    rewards:
+      xp: 50
+    display_icon: WOODEN_SWORD
+
+  cazador_100:
+    name: "&eCazador de 100"
+    description: "Mata 100 zombies"
+    type: KILL_MOBS
+    target: 100
+    rewards:
+      xp: 300
+      item: zm_machete_enriched
+    display_icon: DIAMOND_SWORD
+
+  mato_mutante:
+    name: "&4Exterminador"
+    description: "Mata un ZombiMutante"
+    type: KILL_MOBS
+    target: 1
+    target_mobs:
+      - ZombiMutante
+    rewards:
+      xp: 200
+      zp: 100
+    display_icon: IRON_AXE
+
+  mato_patron:
+    name: "&4&lEl Patron Caido"
+    description: "Mata a ElPatron"
+    type: KILL_BOSS
+    target: 1
+    target_mobs:
+      - ElPatron
+    rewards:
+      xp: 2000
+      zp: 2000
+      item: zm_arma_patron
+      item: zm_armadura_patron_pecho
+    display_icon: NETHERITE_SWORD
+
+  curandero:
+    name: "&aSalvador"
+    description: "Cura la infection de 50 jugadores"
+    type: CURE_PLAYER
+    target: 50
+    rewards:
+      xp: 1000
+      title: "&a&lSalvador"
+      hearts_bonus: 3
+    display_icon: GOLDEN_APPLE
+
+ 末日_survived:
+    name: "&4&l末日求生者"
+    description: "Sobrevive 100 dias sin morir"
+    type: SURVIVE_DAYS
+    target: 100
+    rewards:
+      xp: 5000
+      hearts_bonus: 10
+      title: "&4&l末日求生者"
+      item: zm_antidoto_completo
+        amount: 5
+    display_icon: NETHERITE_HELMET

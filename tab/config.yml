@@ -1,0 +1,58 @@
+# ============================================================
+#  ZONA MUERTA - Configuración TAB
+#  Scoreboard lateral + cabecera/pie de lista de TAB
+# ============================================================
+
+header-footer:
+  enabled: true
+  header:
+    - "&4&l☠ ZONA MUERTA ☠"
+    - "&7Apocalipsis Zombie | 1.21.4"
+    - ""
+  footer:
+    - ""
+    - "&8IP: &7play.zonamuerta.net"
+    - "&c¡Sobrevive si puedes!"
+  update-rate: 20
+
+tablist-name-formatting:
+  enabled: true
+  # Prefijo según grupo LuckPerms
+  # %luckperms-prefix% requiere TAB + LuckPerms integración
+  format: "%luckperms-prefix%%player%&r"
+
+scoreboard:
+  enabled: true
+  # Título del scoreboard - parpadea entre dos lineas
+  title:
+    - "&4&l☠ ZONA MUERTA"
+    - "&c&l☠ ZONA MUERTA"
+  display-condition: ""
+  update-rate: 20
+  lines:
+    - "  "
+    - "&7Jugador: &f%player%"
+    - "  "
+    - "&7Grupo: %luckperms-group%"
+    - "  "
+    - "&cVida: &f%health%&8/&f%max-health%❤"
+    - "&eHambre: &f%food%&8/&f20 🍖"
+    - "  "
+    - "&6Kills: &f%zonamuerta-kills%"
+    - "&4Muertes: &f%zonamuerta-deaths%"
+    - "  "
+    - "&7Ping: &f%ping%ms"
+    - "  "
+    - "&8IP: &7play.zonamuerta.net"
+
+nametags:
+  enabled: true
+  prefix: "%luckperms-prefix%"
+  suffix: " &8[&c%health%&8❤]"
+  invisible-nametags: false
+
+belownametag:
+  enabled: true
+  value: "%health%"
+  title: "❤"
+  update-rate: 20

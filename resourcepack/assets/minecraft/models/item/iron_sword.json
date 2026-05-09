@@ -1,0 +1,15 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "minecraft:item/iron_sword"
+  },
+  "overrides": [
+    { "predicate": { "custom_model_data": 1001 }, "model": "minecraft:item/zm_machete" },
+    { "predicate": { "custom_model_data": 1002 }, "model": "minecraft:item/zm_cuchillo" },
+    { "predicate": { "custom_model_data": 1003 }, "model": "minecraft:item/zm_hacha_oxidada" },
+    { "predicate": { "custom_model_data": 1004 }, "model": "minecraft:item/zm_lanza" },
+    { "predicate": { "custom_model_data": 1005 }, "model": "minecraft:item/zm_escudo" },
+    { "predicate": { "custom_model_data": 1006 }, "model": "minecraft:item/zm_antorcha" },
+    { "predicate": { "custom_model_data": 1007 }, "model": "minecraft:item/zm_ballesta" }
+  ]
+}

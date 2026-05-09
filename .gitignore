@@ -1,0 +1,52 @@
+# compiled jars
+target/*.jar
+!.maven排泄/
+
+# maven
+apache-maven-3.9.9/
+maven.zip
+maven-wrapper.jar
+
+# idea
+.idea/
+*.iml
+out/
+
+# vscode
+.vscode/
+
+# os
+.DS_Store
+Thumbs.db
+
+# logs
+*.log
+logs/
+
+# crash reports
+crash-reports/
+
+# server data (not needed in repo)
+server-data/
+*.jar.pack.config
+jars/
+
+# backups
+backups/
+*.bak
+*.tar.gz
+
+# temp
+tmp/
+temp/
+*.tmp
+
+# build artifacts
+*.class
+*.pyc
+__pycache__/
+
+# env files with secrets
+.env
+*.env
+secrets.yml

@@ -1,0 +1,124 @@
+# ============================================================
+#  ZONA MUERTA - Items Personalizados MythicMobs
+#  Loot especial integrado con ZonaMuerta
+# ============================================================
+
+# Basura recolectable - recurso básico
+zm_basura:
+  Id: PAPER
+  Display: '&7Basura'
+  Lore:
+  - '&8Fragmentos inútiles... o quizás no.'
+
+# Adrenalina - drop del Corredor (placeholder para crafteo futuro)
+zm_adrenalina:
+  Id: SUGAR
+  Display: '&eAdrenalina'
+  Lore:
+  - '&7Extraída del sistema nervioso de un corredor.'
+  - '&8Ingrediente de crafteo especial.'
+
+# Carne Mutante - drop del Mutante
+zm_carne_mutante:
+  Id: ROTTEN_FLESH
+  Display: '&2&lCarne Mutante'
+  Lore:
+  - '&7Putrefacta, retorcida... peligrosa.'
+  - '&8Ingrediente para la síntesis del antídoto.'
+# Fragmento de antídoto - se combinan para hacer el completo
+zm_antidoto_fragmento:
+  Id: LIME_DYE
+  Display: '&aFragmento de Antídoto'
+  Lore:
+  - '&7Una parte del antídoto. Necesitas más...'
+  - '&83 fragmentos = 1 Antídoto Completo'
+
+# Antídoto Completo - drop garantizado del Patrón
+zm_antidoto_completo:
+  Id: POTION
+  Data: STRONG_HEALING
+  Display: '&a&lAntídoto COMPLETO'
+  Lore:
+  - '&7Cura la infección zombie completamente.'
+  - '&c&lEFECTO: Cura instantánea IV + Regeneración V'
+  PotionEffects:
+  - INSTANT_HEALTH 4 3
+  - REGENERATION 5 200
+
+# Ración Militar - drop del Soldado
+zm_racion_militar:
+  Id: BREAD
+  Display: '&6Ración Militar'
+  Lore:
+  - '&7Caducada hace años, pero aún sirve.'
+  - '&8Restaura 6 de hambre.'
+
+# Fragmento de arma - crafteo de armas especiales
+zm_fragmento_arma:
+  Id: FLINT
+  Display: '&7Fragmento de Acero'
+  Lore:
+  - '&7Metal oxidado de las armas del soldado caído.'
+  - '&83 fragmentos + mango = arma artesanal'
+
+# Garra Trepadora - drop del Trepador
+zm_garra_trepadora:
+  Id: SPIDER_EYE
+  Display: '&3Garra Trepadora'
+  Lore:
+  - '&7Las garras endurecidas de un trepador mutante.'
+  - '&8Ingrediente para el garfio artesanal.'
+
+# ARMAS ESPECIALES ==========================================
+
+# Arma del Patrón - hacha del boss
+zm_arma_patron:
+  Id: NETHERITE_AXE
+  Display: '&4&lHacha del Patrón'
+  Lore:
+  - '&8Pertenecía al líder de la horda.'
+  - '&cAtaque +6 | Velocidad -0.2'
+  - '&7"Solo los fuertes sobreviven."'
+  Attributes:
+    MainHand:
+      damage: 6
+  Enchantments:
+  - SHARPNESS 5
+  - LOOTING 3
+  - UNBREAKING 3
+  - FIRE_ASPECT 2
+  NBT:
+    zm_item_type: arma_patron
+
+# Pecho del Patrón - armadura del boss
+zm_armadura_patron_pecho:
+  Id: NETHERITE_CHESTPLATE
+  Display: '&4&lPeto de la Horda'
+  Lore:
+  - '&8Armadura del líder caído.'
+  - '&7Defensa +4 | Dureza +2'
+  Attributes:
+    Chest:
+      armor: 4
+  Enchantments:
+  - PROTECTION 4
+  - UNBREAKING 3
+  - MENDING 1
+  NBT:
+    zm_item_type: armadura_patron
+
+# Machete Superviviente - arma artesanal básica
+zm_machete:
+  Id: IRON_SWORD
+  Display: '&7Machete Oxidado'
+  Lore:
+  - '&8Improvisado con chatarra.'
+  - '&7Daño +2 | Lento pero efectivo.'
+  Attributes:
+    MainHand:
+      damage: 2
+  Enchantments:
+  - SHARPNESS 2
+  - UNBREAKING 2
+  NBT:
+    zm_item_type: machete
