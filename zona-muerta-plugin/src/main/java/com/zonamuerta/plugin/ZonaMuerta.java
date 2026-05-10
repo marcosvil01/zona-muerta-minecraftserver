@@ -111,7 +111,6 @@ implements Listener {
     private int currentDay = 0;
     private double currentMutationRate;
     private boolean isBloodMoon = false;
-    private final Map<String, Integer> zombieChunkCount = new HashMap<String, Integer>();
     private final Random random = new Random();
     private boolean showMutationNamesAboveZombies;
     private Map<String, Boolean> tankAbilities = new HashMap<String, Boolean>();
@@ -792,6 +791,10 @@ implements Listener {
                 }
                 ++ZonaMuerta.this.currentDay;
                 ZonaMuerta.this.currentMutationRate = ZonaMuerta.this.getConfig().getDouble(ZonaMuerta.BASE_MUTATION) + (double)ZonaMuerta.this.currentDay * ZonaMuerta.this.getConfig().getDouble(ZonaMuerta.MUTATION_INCREASE);
+                if (ZonaMuerta.this.mythicBridge != null) {
+                    ZonaMuerta.this.mythicBridge.setCurrentDay(ZonaMuerta.this.currentDay);
+                    ZonaMuerta.this.mythicBridge.setBloodMoonActive(ZonaMuerta.this.isBloodMoon);
+                }
                 if (!ZonaMuerta.this.bloodMoonScheduleEnabled && !ZonaMuerta.this.bloodMoonForced) {
                     if (ZonaMuerta.this.bloodmoonEnabled && ZonaMuerta.this.currentDay % ZonaMuerta.this.bloodmoonFrequency == 0) {
                         ZonaMuerta.this.activateBloodMoon("periodic", null, ZonaMuerta.this.bloodMoonDefaultSpawnMultiplier, ZonaMuerta.this.bloodMoonDefaultMutationMultiplier, true);
@@ -923,9 +926,10 @@ implements Listener {
                 p.playSound(p.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1.5f, 0.7f);
                 p.spawnParticle(Particle.LAVA, p.getLocation().add(0.0, 2.0, 0.0), 50);
             });
-            if (this.mythicBridge != null) {
-                this.mythicBridge.refreshAllMobStats();
-            }
+        }
+        if (this.mythicBridge != null) {
+            this.mythicBridge.setBloodMoonActive(true);
+            this.mythicBridge.refreshAllMobScaling();
         }
     }
 
@@ -941,9 +945,10 @@ implements Listener {
         if (announce) {
             Bukkit.broadcastMessage((String)(String.valueOf(ChatColor.GREEN) + "\u2726 La Luna de Sangre ha terminado \u2726"));
             Bukkit.getOnlinePlayers().forEach(p -> p.playSound(p.getLocation(), Sound.ENTITY_ENDER_DRAGON_DEATH, 1.5f, 0.7f));
-            if (this.mythicBridge != null) {
-                this.mythicBridge.refreshAllMobStats();
-            }
+        }
+        if (this.mythicBridge != null) {
+            this.mythicBridge.setBloodMoonActive(false);
+            this.mythicBridge.refreshAllMobScaling();
         }
     }
 
@@ -957,170 +962,18 @@ implements Listener {
         });
     }
 
-    private void startSpawningSystem() {
-        new BukkitRunnable(){
-
-            public void run() {
-                Bukkit.getOnlinePlayers().forEach(player -> {
-                    if (ZonaMuerta.this.random.nextInt(5) < 2 && ZonaMuerta.this.canSpawnZombiesAt(player.getWorld(), player.getLocation())) {
-                        ZonaMuerta.this.spawnZombieGroup((Player)player);
-                    }
-                });
-            }
-        }.runTaskTimer((Plugin)this, 0L, 100L);
+private boolean isManagedZombie(Entity entity) {
+        return entity instanceof Zombie && entity.getType() == EntityType.ZOMBIE;
     }
 
     private boolean canSpawnZombiesAt(World world, Location loc) {
         WorldConfig wc = this.getWorldConfig(world);
-        if (!wc.enabled) {
-            return false;
-        }
-        if (this.safezoneManager.isInSafezone(loc)) {
-            return false;
-        }
-        long time = world.getTime();
-        switch (this.spawnTimeMode) {
-            case "day": {
-                if (time >= 0L && time <= 12299L) break;
-                return false;
-            }
-            case "night": {
-                if (time >= 12300L && time <= 23999L) break;
-                return false;
-            }
-        }
+        if (!wc.enabled) return false;
+        if (this.safezoneManager.isInSafezone(loc)) return false;
         FileConfiguration cfg = this.getConfig();
-        boolean requireDarkness = cfg.getBoolean("zombies.require_darkness", true);
-        int maxLight = cfg.getInt("zombies.max_light_level", 7);
-        boolean bloodMoonIgnoresDarkness = cfg.getBoolean("zombies.bloodmoon_ignores_darkness", true);
-        if (!requireDarkness) {
-            return true;
-        }
-        if (this.isBloodMoon && bloodMoonIgnoresDarkness) {
-            return true;
-        }
-        byte light = loc.getBlock().getLightLevel();
-        return light <= maxLight;
-    }
-
-    private boolean isManagedZombie(Entity entity) {
-        // Cuenta todos los EntityType.ZOMBIE (tanto mobs ZM-MythicMobs como vanilla fallback).
-        // SkeletalKnight/SkeletonKing son WITHER_SKELETON → no pasan el instanceof Zombie.
-        return entity instanceof Zombie && entity.getType() == EntityType.ZOMBIE;
-    }
-
-    private int countManagedZombies(World world) {
-        int count = 0;
-        for (Entity entity : world.getEntities()) {
-            if (!this.isManagedZombie(entity)) continue;
-            ++count;
-        }
-        return count;
-    }
-
-    private void spawnZombieGroup(Player player) {
-        World world = player.getWorld();
-        if (world.getEnvironment() != World.Environment.NORMAL && world.getEnvironment() != World.Environment.NETHER && world.getEnvironment() != World.Environment.THE_END) {
-            return;
-        }
-        WorldConfig wc = this.getWorldConfig(world);
-        if (!wc.enabled) {
-            return;
-        }
-        long time = world.getTime();
-        if (!this.canSpawnZombiesAt(world, player.getLocation())) {
-            return;
-        }
-        int totalZombies = 0;
-        for (World w : Bukkit.getWorlds()) {
-            totalZombies += this.countManagedZombies(w);
-        }
-        int worldMax = wc.maxZombies > 0 ? wc.maxZombies : this.maxZombiesWorldwide;
-        int worldZombies = this.countManagedZombies(world);
-        if (worldZombies >= worldMax) {
-            return;
-        }
-        if (totalZombies >= this.maxZombiesWorldwide) {
-            return;
-        }
-        int minZombies = 2;
-        int maxZombies = Math.min(6 + this.currentDay, 15);
-        int zombieCount = this.random.nextInt(maxZombies - minZombies + 1) + minZombies;
-        zombieCount = (int)((double)zombieCount * wc.spawnRateMultiplier);
-        if (this.isBloodMoon) {
-            zombieCount = Math.max(1, (int)Math.round((double)zombieCount * this.activeBloodMoonSpawnMultiplier));
-        }
-        double mobLevel = 1.0 + (this.currentDay * 0.5);
-        for (int i = 0; i < zombieCount; ++i) {
-            String chunkKey;
-            Location spawnLoc = this.findSafeSpawnLocation(player.getLocation());
-            if (spawnLoc == null || this.safezoneManager.isInSafezone(spawnLoc) || this.zombieChunkCount.getOrDefault(chunkKey = spawnLoc.getChunk().getX() + "," + spawnLoc.getChunk().getZ(), 0) >= this.maxZombiesPerChunk) continue;
-            if (this.mythicBridge != null && this.mythicBridge.isMythicAvailable()) {
-                String mobType = this.chooseMythicMobType();
-                this.mythicBridge.spawnMythicMob(mobType, spawnLoc, mobLevel);
-            } else {
-                Zombie zombie = (Zombie)world.spawnEntity(spawnLoc, EntityType.ZOMBIE);
-                this.initializeZombie(zombie);
-                if (wc.fireImmune) {
-                    zombie.setFireTicks(0);
-                    zombie.setVisualFire(false);
-                }
-            }
-            this.trackChunkDensity(spawnLoc);
-        }
-    }
-
-    /** Elige un tipo de mob MythicMobs según el día actual y probabilidades ponderadas. */
-    private String chooseMythicMobType() {
-        double r = this.random.nextDouble();
-        if (this.currentDay < 4) {
-            if (r < 0.65) return "ZombiCaminante";
-            if (r < 0.85) return "ZombiCorredor";
-            if (r < 0.97) return "ZombiSoldado";
-            return "ZombiExplosivo";
-        } else if (this.currentDay < 8) {
-            if (r < 0.45) return "ZombiCaminante";
-            if (r < 0.65) return "ZombiCorredor";
-            if (r < 0.78) return "ZombiSoldado";
-            if (r < 0.88) return "ZombiExplosivo";
-            if (r < 0.95) return "ZombiTrepador";
-            return "ZombiMutante";
-        } else {
-            if (r < 0.30) return "ZombiCaminante";
-            if (r < 0.50) return "ZombiCorredor";
-            if (r < 0.65) return "ZombiSoldado";
-            if (r < 0.75) return "ZombiExplosivo";
-            if (r < 0.85) return "ZombiTrepador";
-            return "ZombiMutante";
-        }
-    }
-
-    private Location findSafeSpawnLocation(Location center) {
-        for (int i = 0; i < 10; ++i) {
-            int offsetZ;
-            int offsetX;
-            double actualDistance;
-            while ((actualDistance = Math.sqrt((offsetX = this.random.nextInt(this.furthestSpawnDistance * 2 + 1) - this.furthestSpawnDistance) * offsetX + (offsetZ = this.random.nextInt(this.furthestSpawnDistance * 2 + 1) - this.furthestSpawnDistance) * offsetZ)) < (double)this.closestSpawnDistance || actualDistance > (double)this.furthestSpawnDistance) {
-            }
-            Location attempt = center.clone().add((double)offsetX, 0.0, (double)offsetZ);
-            attempt.setY((double)(center.getWorld().getHighestBlockYAt(attempt) + 1));
-            if (!this.isValidSpawnPoint(attempt) || this.safezoneManager.isInSafezone(attempt)) continue;
-            return attempt;
-        }
-        return null;
-    }
-
-    private boolean isValidSpawnPoint(Location loc) {
-        return loc.getBlock().getType().isAir() && loc.clone().add(0.0, 1.0, 0.0).getBlock().getType().isAir() && loc.clone().add(0.0, -1.0, 0.0).getBlock().getType().isSolid() && !loc.getBlock().isLiquid() && loc.getY() > 0.0;
-    }
-
-    private void trackChunkDensity(Location loc) {
-        String chunkKey = loc.getChunk().getX() + "," + loc.getChunk().getZ();
-        int count = this.zombieChunkCount.getOrDefault(chunkKey, 0) + 1;
-        this.zombieChunkCount.put(chunkKey, count);
-        if (count >= 20) {
-            Bukkit.broadcastMessage((String)(String.valueOf(ChatColor.DARK_RED) + "\u2726 OLEADA DE MUTACIONES EN ZONA [" + chunkKey + "] \u2726"));
-        }
+        if (!cfg.getBoolean("zombies.require_darkness", true)) return true;
+        if (this.isBloodMoon && cfg.getBoolean("zombies.bloodmoon_ignores_darkness", true)) return true;
+        return loc.getBlock().getLightLevel() <= cfg.getInt("zombies.max_light_level", 7);
     }
 
     private void handleCryoTrail(final Zombie zombie) {
@@ -1202,6 +1055,10 @@ implements Listener {
         }.runTaskTimer((Plugin)this, 0L, 10L);
     }
 
+    private static boolean isValidSpawnPoint(Location loc) {
+        return loc.getBlock().getType().isAir() && loc.clone().add(0.0, 1.0, 0.0).getBlock().getType().isAir() && loc.clone().add(0.0, -1.0, 0.0).getBlock().getType().isSolid() && !loc.getBlock().isLiquid() && loc.getY() > 0.0;
+    }
+
     private void handleEndermanTeleport(final Zombie zombie) {
         if (zombie.hasMetadata("teleport_cooldown")) {
             return;
@@ -1215,7 +1072,7 @@ implements Listener {
             Location targetLoc = target.getLocation();
             Location teleportLoc = targetLoc.clone().add((double)(this.random.nextInt(5) - 2), 0.0, (double)(this.random.nextInt(5) - 2));
             teleportLoc.setY((double)(teleportLoc.getWorld().getHighestBlockYAt(teleportLoc) + 1));
-            if (this.isValidSpawnPoint(teleportLoc) && !this.safezoneManager.isInSafezone(teleportLoc)) {
+            if (isValidSpawnPoint(teleportLoc) && !this.safezoneManager.isInSafezone(teleportLoc)) {
                 zombie.getWorld().spawnParticle(Particle.PORTAL, zombie.getLocation(), 50);
                 zombie.teleport(teleportLoc);
                 zombie.getWorld().spawnParticle(Particle.PORTAL, teleportLoc, 50);
@@ -1596,8 +1453,6 @@ implements Listener {
             ConfigurationSection lootSection;
             String type;
             Zombie zombie = (Zombie)event.getEntity();
-            String chunkKey = zombie.getLocation().getChunk().getX() + "," + zombie.getLocation().getChunk().getZ();
-            this.zombieChunkCount.put(chunkKey, this.zombieChunkCount.getOrDefault(chunkKey, 1) - 1);
             String zombieType = (String)zombie.getPersistentDataContainer().get(this.zombieTypeKey, PersistentDataType.STRING);
             if (zombieType != null) {
                 switch (zombieType) {
