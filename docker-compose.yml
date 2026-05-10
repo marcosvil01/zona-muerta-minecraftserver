@@ -42,9 +42,8 @@ services:
         worldguard
         dynmap
         discordSRV
-        imageonlinemod
-        invsee
-        keeps统一
+        invsee++
+        playerkeepinventory
       MODRINTH_DOWNLOAD_DEPENDENCIES: required
       BACKUP_SCHEDULE: "0 3 * * *"
       BACKUP_DIR: "/data/backups"
