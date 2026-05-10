@@ -118,7 +118,7 @@ public class MythicBridge implements Listener {
 
     // ── Blood Moon Scaling (applied via MM skills + manual refresh) ──────────
 
-    private void refreshAllMobScaling() {
+    public void refreshAllMobScaling() {
         if (!mythicAvailable) return;
         Bukkit.getScheduler().runTask(plugin, () -> {
             for (UUID uid : trackedZombieUUIDs) {
@@ -137,15 +137,15 @@ public class MythicBridge implements Listener {
         double bloodMoonHpMultiplier = bloodMoonActive ? 1.5 : 1.0;
         double bloodMoonSpeedMultiplier = bloodMoonActive ? 1.3 : 1.0;
 
-        double baseMaxHealth = le.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
+        double baseMaxHealth = le.getAttribute(Attribute.MAX_HEALTH).getBaseValue();
         double scaledHealth = baseMaxHealth * dayMultiplier * (bloodMoonActive ? 1.0 : 1.0);
         scaledHealth = Math.min(scaledHealth * bloodMoonHpMultiplier, baseMaxHealth * 3.0);
-        le.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(scaledHealth);
+        le.getAttribute(Attribute.MAX_HEALTH).setBaseValue(scaledHealth);
         le.setHealth(Math.min(le.getHealth(), scaledHealth));
 
-        double currentSpeed = le.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getBaseValue();
+        double currentSpeed = le.getAttribute(Attribute.MOVEMENT_SPEED).getBaseValue();
         double targetSpeed = Math.min(currentSpeed * bloodMoonSpeedMultiplier, 0.4);
-        le.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(targetSpeed);
+        le.getAttribute(Attribute.MOVEMENT_SPEED).setBaseValue(targetSpeed);
     }
 
     // ── Events ────────────────────────────────────────────────────────────────
@@ -239,7 +239,7 @@ public class MythicBridge implements Listener {
                 plugin.getLogger().warning("[ZM-Bridge] Tipo mob no encontrado: " + mobType);
                 return false;
             }
-            MythicBukkit.inst().getMobManager().spawnMob(mobOpt.get(), loc, level);
+            MythicBukkit.inst().getMobManager().spawnMob(mobType, loc, level);
             return true;
         } catch (Exception e) {
             plugin.getLogger().warning("[ZM-Bridge] Error spawning " + mobType + ": " + e.getMessage());
