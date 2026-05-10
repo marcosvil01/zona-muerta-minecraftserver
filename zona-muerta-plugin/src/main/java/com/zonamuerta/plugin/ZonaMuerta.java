@@ -170,6 +170,7 @@ implements Listener {
     private SafezoneManager safezoneManager;
     private StructureManager structureManager;
     private MythicBridge mythicBridge;
+    private EliteMobsBridge eliteMobsBridge;
     private ProgressionManager progressionManager;
     private ClassManager classManager;
     private EconomyManager economyManager;
@@ -248,8 +249,15 @@ implements Listener {
         this.deactivateBloodMoon(false);
         this.currentDay = this.getConfig().getInt("data.current_day", 0);
         this.commandHandler = new CommandHandler(this, this.infected, this.safezoneManager);
-        // ── Integración MythicMobs ─────────────────────────────────────────────
-        if (this.getServer().getPluginManager().getPlugin("MythicMobs") != null) {
+        // ── Integración EliteMobs / MythicMobs ───────────────────────────────────
+        if (this.getServer().getPluginManager().getPlugin("EliteMobs") != null) {
+            EliteMobsBridge bridge = new EliteMobsBridge(this, this.infected);
+            if (bridge.init()) {
+                this.eliteMobsBridge = bridge;
+                this.getServer().getPluginManager().registerEvents(bridge, this);
+                this.getLogger().info("[ZM] EliteMobs bridge activado. Spawn unificado activo.");
+            }
+        } else if (this.getServer().getPluginManager().getPlugin("MythicMobs") != null) {
             MythicBridge bridge = new MythicBridge(this, this.infected);
             if (bridge.init()) {
                 this.mythicBridge = bridge;
@@ -257,7 +265,7 @@ implements Listener {
                 this.getLogger().info("[ZM] MythicMobs bridge activado. Spawn unificado activo.");
             }
         } else {
-            this.getLogger().warning("[ZM] MythicMobs no encontrado — bridge desactivado.");
+            this.getLogger().warning("[ZM] Ni EliteMobs ni MythicMobs encontrados — bridge desactivado.");
         }
         // ── Nuevos managers de mc_core fusionados ────────────────────────────
         this.databaseManager = new DatabaseManager(this);
@@ -324,7 +332,9 @@ implements Listener {
      */
     public void awardZombieExp(Player player, int amount, String mobType) {
         if (player == null || amount <= 0) return;
-        if (this.mythicBridge != null && this.mythicBridge.isMythicAvailable()) {
+        if (this.eliteMobsBridge != null && this.eliteMobsBridge.isEliteMobsAvailable()) {
+            this.progressionManager.onMythicMobKill(player, mobType, amount);
+        } else if (this.mythicBridge != null && this.mythicBridge.isMythicAvailable()) {
             this.progressionManager.onMythicMobKill(player, mobType, amount);
         } else {
             player.sendMessage(ChatColor.GOLD + "[ZM] +" + amount + " XP por matar " + ChatColor.WHITE + mobType);
@@ -346,6 +356,7 @@ implements Listener {
     public SafezoneManager getSafezoneManager() { return this.safezoneManager; }
     public StructureManager getStructureManager() { return this.structureManager; }
     public MythicBridge getMythicBridge() { return this.mythicBridge; }
+    public EliteMobsBridge getEliteMobsBridge() { return this.eliteMobsBridge; }
     public AdminManager getAdminManager() { return this.adminManager; }
     public SelectionManager getSelectionManager() { return this.selectionManager; }
     public PermissionManagerV2 getPermissionManagerV2() { return this.permissionManagerV2; }
@@ -791,7 +802,10 @@ implements Listener {
                 }
                 ++ZonaMuerta.this.currentDay;
                 ZonaMuerta.this.currentMutationRate = ZonaMuerta.this.getConfig().getDouble(ZonaMuerta.BASE_MUTATION) + (double)ZonaMuerta.this.currentDay * ZonaMuerta.this.getConfig().getDouble(ZonaMuerta.MUTATION_INCREASE);
-                if (ZonaMuerta.this.mythicBridge != null) {
+                if (ZonaMuerta.this.eliteMobsBridge != null) {
+                    ZonaMuerta.this.eliteMobsBridge.setCurrentDay(ZonaMuerta.this.currentDay);
+                    ZonaMuerta.this.eliteMobsBridge.setBloodMoonActive(ZonaMuerta.this.isBloodMoon);
+                } else if (ZonaMuerta.this.mythicBridge != null) {
                     ZonaMuerta.this.mythicBridge.setCurrentDay(ZonaMuerta.this.currentDay);
                     ZonaMuerta.this.mythicBridge.setBloodMoonActive(ZonaMuerta.this.isBloodMoon);
                 }
@@ -927,7 +941,10 @@ implements Listener {
                 p.spawnParticle(Particle.LAVA, p.getLocation().add(0.0, 2.0, 0.0), 50);
             });
         }
-        if (this.mythicBridge != null) {
+        if (this.eliteMobsBridge != null) {
+            this.eliteMobsBridge.setBloodMoonActive(true);
+            this.eliteMobsBridge.refreshAllMobScaling();
+        } else if (this.mythicBridge != null) {
             this.mythicBridge.setBloodMoonActive(true);
             this.mythicBridge.refreshAllMobScaling();
         }
@@ -946,7 +963,10 @@ implements Listener {
             Bukkit.broadcastMessage((String)(String.valueOf(ChatColor.GREEN) + "\u2726 La Luna de Sangre ha terminado \u2726"));
             Bukkit.getOnlinePlayers().forEach(p -> p.playSound(p.getLocation(), Sound.ENTITY_ENDER_DRAGON_DEATH, 1.5f, 0.7f));
         }
-        if (this.mythicBridge != null) {
+        if (this.eliteMobsBridge != null) {
+            this.eliteMobsBridge.setBloodMoonActive(false);
+            this.eliteMobsBridge.refreshAllMobScaling();
+        } else if (this.mythicBridge != null) {
             this.mythicBridge.setBloodMoonActive(false);
             this.mythicBridge.refreshAllMobScaling();
         }
