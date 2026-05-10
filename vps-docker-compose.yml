@@ -10,7 +10,7 @@ services:
       TYPE: PAPER
       VERSION: '1.21.4'
       MEMORY: 4G
-      MAX_PLAYERS: 50
+      MAX_PLAYERS: 10
       MOTD: '\u00a74\u00a7l\u2620 Zona Muerta \u2620\n\u00a77Apocalipsis Zombie - Sobrevive si puedes...'
       DIFFICULTY: hard
       VIEW_DISTANCE: 10
@@ -23,9 +23,6 @@ services:
       SPAWN_MONSTERS: 'true'
       MAX_WORLD_SIZE: 10000
       PLAYER_IDLE_TIMEOUT: 30
-      RCON_PORT: 25575
-      RCON_PASSWORD: '${RCON_PASSWORD:-changeme}'
-      ENABLE_RCON: 'true'
       MODRINTH_PROJECTS: |
         viaversion
         viabackwards
@@ -45,13 +42,8 @@ services:
         playerkeepinventory
         tab
       MODRINTH_DOWNLOAD_DEPENDENCIES: required
-      BACKUP_SCHEDULE: "0 3 * * *"
-      BACKUP_DIR: "/data/backups"
-      BACKUP_RETENTION_DAYS: 7
     volumes:
       - minecraft-data:/data
-      - ./scripts:/data/scripts
-      - ./plugins:/data/plugins
     deploy:
       resources:
         limits:

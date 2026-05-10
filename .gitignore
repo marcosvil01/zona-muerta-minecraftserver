@@ -1,6 +1,5 @@
-# compiled jars
-target/*.jar
-!.maven排泄/
+# compiled jars (but keep ZonaMuerta plugin jar)
+zona-muerta-plugin/target/
 
 # maven
 apache-maven-3.9.9/
@@ -26,8 +25,14 @@ logs/
 # crash reports
 crash-reports/
 
-# server data (not needed in repo)
+# server data (generated at runtime, not needed in repo)
 server-data/
+
+# plugins directory (JAR binaries loaded at runtime, not source)
+plugins/
+!.gitkeep  # keep empty marker
+
+# build artifacts from plugins
 *.jar.pack.config
 jars/
 
